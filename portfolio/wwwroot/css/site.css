@@ -18,5 +18,35 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: #0F0F0F;
+    overflow-x: hidden;
+}
+
+
+
+/*navbar section*/
+
+.navbar-solid {
+    background-color: #0F0F0F;
+}
+
+.nav-item .nav-link {
+    color: #fff;
+}
+
+.nav-item:hover .nav-link {
+    color: #adadad;
+}
+
+.logo-text {
+    border-right: 2px solid white;
+    padding-right: 38px;
+}
+
+@media (max-width: 575.98px) {
+    .logo-text {
+        border-right: 0px;
+        padding-right: 0px;
+    }
 }
