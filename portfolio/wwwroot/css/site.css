@@ -44,7 +44,11 @@ body {
     padding-right: 38px;
 }
 
+<<<<<<< HEAD
 @media (max-width: 575.98px) {
+=======
+@media (max-width: 768px) {
+>>>>>>> features
     .logo-text {
         border-right: 0px;
         padding-right: 0px;
