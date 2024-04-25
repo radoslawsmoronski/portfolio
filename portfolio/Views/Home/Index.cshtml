@@ -27,7 +27,7 @@
     <div class="container about-box">
         <div class="row mb-5 mt-5 d-flex align-items-center justify-content-center">
             <div class="col-lg-5 order-lg-2 col-md-12 text-center align-self-center pb-2 pt-2">
-                <img class="project-image" src="images/photo.jpg"></img>
+                <img class="project-image" src="images/photo.jpg" />
             </div>
             <div class="col-lg-7 order-lg-1 col-md-12 d-flex align-items-center justify-content-center pb-2 pt-2">
                 <div>
@@ -64,7 +64,7 @@
             Portfoltio
         </h1>
     </div>
-    <div class="portfolio-container">
+    <div class="portfolio container">
         <div class="container">
             <div class="row">
                 @for (int i = 0; i < 3; i++)
@@ -124,131 +124,3 @@
         </div>
     </div>
 </section>
-
-<<<<<<< HEAD
-<section id="welcome" class="mu-5" style="min-height: 400px;">
-    <div class="row" style="height: 100vh;">
-        <div class="col-lg-6 col-md-6 col-5 d-flex align-items-center justify-content-center">
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-3"></div>
-                <div class="col-lg-9 col-md-9 col-9">
-                    <h1 class="text-white header-socrates">Radosław Smoroński</h1>
-                    <div class="text-white">Computer Science Student</div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6 col-md-6 col-7 d-flex justify-content-end position-relative">
-            <img src="~/images/socrates2.png" class="img-fluid socrates-img" />
-        </div>
-    </div> 
-</section>
-
-<section id="about" style="min-height: 465px;">
-    <div class="section-header">
-        <h1 class="text-white">
-            O mnie
-        </h1>
-    </div>
-    <div class="container about-box">
-        <div class="row mb-5 mt-5 d-flex align-items-center justify-content-center">
-            <div class="col-lg-5 order-lg-2 col-md-12 text-center align-self-center pb-2 pt-2">
-                <img class="project-image" src="images/photo.jpg"></img>
-            </div>
-            <div class="col-lg-7 order-lg-1 col-md-12 d-flex align-items-center justify-content-center pb-2 pt-2">
-                <div>
-                    <h3 class="text-center text-white">Radosław Smoroński</h3>
-                    <p class="text-center">Jestem studentem Wyższej Szkoły Ekonomii i Informatyki w Krakowie, gdzie studiuję informatykę stosowaną. Od zawsze pasjonuję się technologiami i programowaniem, dlatego też moim celem jest zostanie programistą .NET.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="skills" style="min-height: 465px;">
-    <div class="section-header">
-        <h1 class="text-white">
-            Umiejętności
-        </h1>
-    </div>
-    <div class="container skills-box">
-        <div class="row">
-            @for(int i=0; i < 8; i++)
-            {
-                <div class="col-lg-4 col-6 text-center px-5 pb-5">
-                    <img src="~/images/csharp.png" width="50px" height="50px"/> 
-                    <h5 class="text-white m-3">Umiejętność</h5>
-                </div>
-            }
-        </div>
-    </div>
-</section>
-
-<section id="portfolio">
-    <div class="section-header">
-        <h1 class="text-white">
-            Portfoltio
-        </h1>
-    </div>
-    <div class="portfolio-container">
-        <div class="container">
-            <div class="row">
-                @for (int i = 0; i < 3; i++)
-                {
-                    <div class="col-lg-4 px-5 pb-5">
-                        <div class="project-box text-center">
-                            <img src="~/images/project-img.png" style="width: 100%; height: auto" />
-                            <div class="text-white pb-1 m-3" style="font-size: 25px;">CMDGameEngine</div>
-                            <div class="cover text-center">
-                                <div class="text-white pb-3 m-3" style="font-size: 25px;">CMDGameEngine</div>
-                                <p class="text-white m-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer gravida felis in ultrices molestie.</p>
-                                <a class="btn btn-dark" href="git" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);">
-                                    <i class="bi bi-github text-white" style="font-size: 35px;"></i> <br> Repozytorium
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="contact">
-    <div class="section-header">
-        <h1 class="text-white">
-            Kontakt
-        </h1>
-    </div>
-    <div class="container contact-box">
-        <div class="row">
-            <div class="col-lg-6 order-lg-1 order-2 p-5">
-                <ul>
-                    @for(int i=0; i < 3; i++)
-                    {
-                        <li class="d-flex align-items-center justify-content-center">
-                             <i class="bi bi-envelope contact-icon"></i>
-                             email@rsmoronski.pl
-                            <div class="li-cover"></div>
-                        </li>
-                    }
-                </ul>
-            </div>
-            <div class="col-lg-6 order-lg-2 order-1 d-flex align-items-center justify-content-center">
-                <form class="m-lg-0 m-3" style="width: 100%">
-                    <div class="form-group mb-lg-3 mb-5">
-                        <label for="exampleFormControlInput1">Adres Email</label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-                    </div>
-                    <div class="form-group mb-lg-3 mb-5">
-                        <label for="exampleFormControlTextarea1">Treść</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-dark">Wyślij Wiadomość</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
-
-=======
->>>>>>> features
