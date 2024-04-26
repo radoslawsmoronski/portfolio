@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using portfolio.DataAccess.Data;
+using portfolio.DataAccess.Repository.IRepository;
 using portfolio.Models;
+using portfolio.Models.ViewModels;
 using System.Diagnostics;
-
 
 namespace portfolioASP.Areas.View.Controllers
 {
@@ -10,18 +11,24 @@ namespace portfolioASP.Areas.View.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ApplicationDbContext _db;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext db)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork)
         {
             _logger = logger;
-            _db = db;
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
         {
-            List<Skill> objSkillList = _db.Skills.ToList();
-            return View(objSkillList);
+            HomePageViewModel model = new HomePageViewModel();
+
+            model.Skills = _unitOfWork.SkillRepository.GetAll().ToList();
+            model.Projects = _unitOfWork.ProjectRepository.GetAll().ToList();
+
+
+            return View(model);
         }
 
         public IActionResult Privacy()
