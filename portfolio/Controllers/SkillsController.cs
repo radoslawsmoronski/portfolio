@@ -1,21 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using portfolio.DataAccess.Data;
+using portfolio.DataAccess.Repository.IRepository;
 using portfolio.Models;
 
 namespace portfolioASP.Controllers
 {
     public class SkillsController : Controller
     {
-        private readonly ApplicationDbContext _db;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public SkillsController(ApplicationDbContext db)
+        public SkillsController(IUnitOfWork unitOfWork)
         {
-            _db = db;
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
         {
-            List<Skill> objSkillsList = _db.Skills.ToList();
+            List<Skill> objSkillsList = _unitOfWork.SkillRepository.GetAll().ToList();
+
             return View(objSkillsList);
         }
 
@@ -30,8 +32,8 @@ namespace portfolioASP.Controllers
             if(ModelState.IsValid)
             {
                 obj.ImageUrl = "images/csharp.png";
-                _db.Skills.Add(obj);
-                _db.SaveChanges();
+                _unitOfWork.SkillRepository.Add(obj);
+                _unitOfWork.Save();
                 TempData["success"] = "Umiejętność zostałą dodana!";
                 return RedirectToAction("Index");
             }
@@ -45,7 +47,7 @@ namespace portfolioASP.Controllers
                 return NotFound();
             }
 
-            Skill? skillFromDb = _db.Skills.Find(id);
+            Skill? skillFromDb = _unitOfWork.SkillRepository.Get(u => u.Id == id);
 
             if(skillFromDb == null)
             {
@@ -61,8 +63,8 @@ namespace portfolioASP.Controllers
             if (ModelState.IsValid)
             {
                 obj.ImageUrl = "images/csharp.png";
-                _db.Skills.Update(obj);
-                _db.SaveChanges();
+                _unitOfWork.SkillRepository.Update(obj);
+                _unitOfWork.Save();
                 TempData["success"] = "Umiejętność została edytowana!";
                 return RedirectToAction("Index");
             }
@@ -76,7 +78,7 @@ namespace portfolioASP.Controllers
                 return NotFound();
             }
 
-            Skill? skillFromDb = _db.Skills.Find(id);
+            Skill? skillFromDb = _unitOfWork.SkillRepository.Get(u => u.Id == id);
 
             if (skillFromDb == null)
             {
@@ -85,8 +87,8 @@ namespace portfolioASP.Controllers
 
             if (ModelState.IsValid)
             {
-                _db.Skills.Remove(skillFromDb);
-                _db.SaveChanges();
+                _unitOfWork.SkillRepository.Remove(skillFromDb);
+                _unitOfWork.Save();
                 TempData["success"] = "Umiejętność została usunięta.";
                 return RedirectToAction("Index");
             }
