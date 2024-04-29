@@ -19,7 +19,6 @@ namespace portfolio.DataAccess.Repository
         {
             _db = db;
             SkillRepository = new SkillRepository(_db);
-
             ProjectRepository = new ProjectRepository(_db);
         }
 
