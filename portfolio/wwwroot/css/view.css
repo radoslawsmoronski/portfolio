@@ -18,9 +18,13 @@ html {
 }
 
 body {
-    margin-bottom: 60px;
     background-color: #0F0F0F;
     overflow-x: hidden;
+}
+
+footer {
+    height: 100px;
+    text-align: center;
 }
 
 
@@ -43,7 +47,6 @@ body {
     border-right: 2px solid white;
     padding-right: 38px;
 }
-
 
 @media (max-width: 768px) {
     .logo-text {
