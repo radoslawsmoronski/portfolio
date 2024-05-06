@@ -62,6 +62,8 @@
             height: 120px;
         }
 
+    }
+
 </style>
 
 <section id="box">
@@ -103,6 +105,10 @@
                                 <i class="bi bi-trash-fill"></i>
                                 Delete
                             </a>
+                            <a asp-controller="Skills" asp-action="Upsert" asp-route-id="@obj.Id" class="btn btn-dark upsert-btn">
+                                <i class="bi bi-pen"></i>
+                                Edytuj
+                            </a>
                         </td>
                     </tr>
                 }
@@ -110,6 +116,5 @@
         </table>
     </div>
 </section>
-
 
 <script src="~/js/skill.js"></script>
