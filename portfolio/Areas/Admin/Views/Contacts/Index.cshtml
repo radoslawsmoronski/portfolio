@@ -1,4 +1,4 @@
-﻿@model List<Skill>
+﻿@model List<Contact>
 
 <style>
     #box {
@@ -23,6 +23,12 @@
         float: right;
     }
 
+    .details-btn {
+        width: 200px;
+        height: 50px;
+        float: right;
+    }
+
     .upsert-btn {
         width: 200px;
         height: 50px;
@@ -35,9 +41,8 @@
         float: right;
     }
 
-    .project-img {
-        width: 50px;
-        height: 50px;
+    .contact-icon {
+        font-size: 30px;
     }
 
 
@@ -47,19 +52,27 @@
             width: 100px;
         }
 
+        .details-btn {
+            width: 100px;
+            height: 40px;
+        }
+
+        span {
+            display: none;
+        }
+
         .upsert-btn {
             width: 100px;
-            height: 60px;
+            height: 40px;
         }
 
         .delete-btn {
             width: 100px;
-            height: 60px;
+            height: 40px;
         }
 
-        .project-img {
-            width: 120px;
-            height: 120px;
+        .contact-icon {
+            font-size: 80px;
         }
 
 </style>
@@ -67,16 +80,16 @@
 <section id="box">
     <div class="container">
         <div class="header text-center mb-5">
-            <h1 class="text-white">Umiejętności</h1>
+            <h1 class="text-white">Kontakty</h1>
         </div>
         <table class="table bg-dark">
             <thead>
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Nazwa</th>
-                    <th scope="col">Obrazek</th>
+                    <th scope="col">Ikona</th>
                     <th scope="col">
-                        <a asp-controller="Skills" asp-action="Upsert" class="btn btn-dark add-btn">
+                        <a asp-controller="Contacts" asp-action="Upsert" class="btn btn-dark add-btn">
                             <i class="bi bi-plus-circle"></i>
                             Dodaj
                         </a>
@@ -91,17 +104,21 @@
                         <td>
                             @obj.Name
                         </td>
-                        <td>
-                            <img class="project-img" src="../@(obj.ImageUrl != null ? obj.ImageUrl : @"\images\skills\default-skill.png")"></img>
+                        <td class="contact-icon">
+                            <i class="@(obj.Icon != null ? obj.Icon : "bi bi-person-rolodex")"></i>
                         </td>
                         <td class="text-center">
-                            <a onClick=Delete('/admin/skills/delete/@obj.Id') class="btn btn-danger delete-btn">
+                            <a onClick=Delete('/admin/contacts/delete/@obj.Id') class="btn btn-danger delete-btn">
                                 <i class="bi bi-trash-fill"></i>
-                                Delete
+                                <span>Delete</span>
                             </a>
-                            <a asp-controller="Skills" asp-action="Upsert" asp-route-id="@obj.Id" class="btn btn-dark upsert-btn">
+                            <a asp-controller="Contacts" asp-action="Upsert" asp-route-id="@obj.Id" class="btn btn-dark upsert-btn">
                                 <i class="bi bi-pen"></i>
-                                Edytuj
+                                <span>Edytuj</span>
+                            </a>
+                            <a asp-controller="Contacts" asp-action="Details" asp-route-id="@obj.Id" class="btn btn-outline-dark details-btn">
+                                <i class="bi bi-search"></i>
+                                <span>Podgląd</span>
                             </a>
                         </td>
                     </tr>
@@ -111,6 +128,4 @@
     </div>
 </section>
 
-
 <script src="~/js/admin.js"></script>
-

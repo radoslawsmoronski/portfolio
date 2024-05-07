@@ -10,6 +10,7 @@ namespace portfolio.Models.ViewModels
     {
         public List<Skill> Skills { get; set; }
         public List<Project> Projects { get; set; }
+        public List<Contact> Contacts { get; set; }
 
 
     }
