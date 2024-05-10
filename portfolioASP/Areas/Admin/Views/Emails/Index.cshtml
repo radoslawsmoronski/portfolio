@@ -1,4 +1,4 @@
-﻿@model List<EmailMessage>
+﻿@model AdminEmailsViewModel
 
 <style>
     #box {
@@ -12,11 +12,10 @@
         }
 
         #box td {
-            background-color: #151a1c;
             color: #e3e3e3;
             border-bottom: 1px solid #1E2427;
         }
-
+      
 
     .add-btn {
         width: 200px;
@@ -82,29 +81,43 @@
 <section id="box">
     <div class="container">
         <div class="header text-center mb-5">
-            <h1 class="text-white">Wiadomości</h1>
+            <h1 class="text-white">Wiadomości (@Model.UnreadEmailMessages / @Model.EmailMessages.Count())</h1>
         </div>
-        <table class="table bg-dark">
+        <table class="table">
             <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nazwa</th>
-                    <th scope="col">Temat</th>
-                    <th scope="col">
-                        <a asp-controller="Emails" asp-action="EmailConfigure" class="btn btn-dark add-btn">
-                            <i class="bi bi-gear"></i>
-                            Konfiguracja
-                        </a>
-                    </th>
-                </tr>
+                <th scope="col">#</th>
+                <th scope="col">eMail</th>
+                <th scope="col">Temat</th>
+                <th scope="col">
+                    <a asp-controller="Emails" asp-action="EmailConfigure" class="btn btn-dark add-btn">
+                        <i class="bi bi-gear"></i>
+                        Konfiguracja
+                    </a>
+                </th>
             </thead>
             <tbody>
-                @foreach(var obj in Model)
+                @{
+                    DateTime? dateTime = null;
+                }
+                @foreach(var obj in Model.EmailMessages)
                 {
-                    <tr>
-                        <td>@obj.Id</td>
+
+                    @if (dateTime != obj.SentAt.Date)
+                    {
+                        dateTime = obj.SentAt.Date;
+
+                        <tr class="table-dark">
+                            <td>@obj.SentAt.Date.ToString("yyyy-MM-dd")</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    }
+
+                    <tr class="@(obj.IsReaded ? "table-dark" : "table-secondary")">
+                        <td>@obj.SentAt.Hour:@obj.SentAt.Minute</td>
                         <td>
-                            @obj.Name
+                            @obj.Email
                         </td>
                         <td>
                             @obj.Subject

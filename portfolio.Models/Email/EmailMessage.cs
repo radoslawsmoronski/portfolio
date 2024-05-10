@@ -11,5 +11,7 @@ namespace portfolio.Models.Email
     {
         [Required]
         public int Id { get; set; }
+        public bool IsReaded { get; set; } = false;
+        public DateTime SentAt { get; set; }
     }
 }
