@@ -1,5 +1,6 @@
 ﻿using portfolio.DataAccess.Data;
 using portfolio.DataAccess.Repository.IRepository;
+using portfolio.Models.Email;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace portfolio.DataAccess.Repository
         public ISkillRepository SkillRepository { get; private set; }
         public IProjectRepository ProjectRepository { get; private set; }
         public IContactRepository ContactRepository { get; private set; }
+        public IEmailMessageRepository EmailMessageRepository { get; private set; }
 
         private ApplicationDbContext _db;
 
@@ -22,6 +24,7 @@ namespace portfolio.DataAccess.Repository
             SkillRepository = new SkillRepository(_db);
             ProjectRepository = new ProjectRepository(_db);
             ContactRepository = new ContactRepository(_db);
+            EmailMessageRepository = new EmailMessageRepository(_db);
         }
 
         public void Save()

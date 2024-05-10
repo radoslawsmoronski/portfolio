@@ -7,11 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-<<<<<<<< HEAD:portfolio.Unity/portfolio.Unity.csproj
+    <ProjectReference Include="..\portfolio.DataAccess\portfolio.DataAccess.csproj" />
     <ProjectReference Include="..\portfolio.Models\portfolio.Models.csproj" />
-========
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
->>>>>>>> features:portfolio.Models/portfolio.Models.csproj
   </ItemGroup>
 
 </Project>
