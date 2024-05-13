@@ -8,6 +8,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "portfolioASP", "portfolio\portfolioASP.csproj", "{DB09F268-93CE-4498-91CF-77F835FFB469}"
 EndProject
 <<<<<<< HEAD
@@ -32,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "portfolio.Models", "portfol
 >>>>>>> features
 =======
 >>>>>>> features
+=======
+>>>>>>> features
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "portfolioASP", "portfolioASP\portfolioASP.csproj", "{DB09F268-93CE-4498-91CF-77F835FFB469}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "portfolio.DataAccess", "portfolio.DataAccess\portfolio.DataAccess.csproj", "{3686E250-FE86-4CB3-B74B-ED7AC5EDCDE9}"
@@ -43,6 +46,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "portfolio.Models", "portfol
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> features
+=======
 >>>>>>> features
 =======
 >>>>>>> features
