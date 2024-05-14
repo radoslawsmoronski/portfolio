@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
-using portfolio.DataAccess.Data;
 using portfolio.DataAccess.Json;
 using portfolio.DataAccess.Repository.IRepository;
 using portfolio.Models;
@@ -15,16 +12,12 @@ namespace portfolioASP.Areas.View.Controllers
     [Area("View")]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEmailService _emailService;
         private readonly ViewHomePageViewModel _model;
 
-        public HomeController(
-            ILogger<HomeController> logger, IUnitOfWork unitOfWork,
-            IEmailService emailService)
+        public HomeController(IUnitOfWork unitOfWork, IEmailService emailService)
         {
-            _logger = logger;
             _unitOfWork = unitOfWork;
             _emailService = emailService;
 
