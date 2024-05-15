@@ -89,9 +89,13 @@
                 <th scope="col">eMail</th>
                 <th scope="col">Temat</th>
                 <th scope="col">
-                    <a asp-controller="Emails" asp-action="EmailConfigure" class="btn btn-dark add-btn">
+                    <a asp-controller="Contact" asp-action="EmailConfigure" class="btn btn-dark add-btn">
                         <i class="bi bi-gear"></i>
-                        Konfiguracja
+                        Email
+                    </a>
+                    <a asp-controller="Contact" asp-action="ContactsIndex" class="btn btn-dark add-btn">
+                        <i class="bi bi-gear"></i>
+                        Kontakty
                     </a>
                 </th>
             </thead>
@@ -123,11 +127,11 @@
                             @obj.Subject
                         </td>
                         <td class="text-center">
-                            <a onClick=Delete('/admin/emails/delete/@obj.Id') class="btn btn-danger delete-btn">
+                            <a onClick=Delete('/admin/contact/delete/@obj.Id') class="btn btn-danger delete-btn">
                                 <i class="bi bi-trash-fill"></i>
                                 <span>Delete</span>
                             </a>
-                            <a asp-controller="Emails" asp-action="Details" asp-route-id="@obj.Id" class="btn btn-outline-dark details-btn">
+                            <a asp-controller="Contact" asp-action="Details" asp-route-id="@obj.Id" class="btn btn-outline-dark details-btn">
                                 <i class="bi bi-search"></i>
                                 <span>Podgląd</span>
                             </a>

@@ -1,25 +1,20 @@
-﻿using Azure;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using portfolio.DataAccess.Json;
 using portfolio.DataAccess.Repository.IRepository;
 using portfolio.Models;
 using portfolio.Models.Email;
 using portfolio.Models.ViewModels;
-using portfolio.Utility.Email;
-using System.Drawing.Drawing2D;
 
 namespace portfolioASP.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class EmailsController : Controller
+    public class ContactController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly EmailSettings _emailSettings;
 
-
-        public EmailsController(IUnitOfWork unitOfWork, IOptions<EmailSettings> emailSettings)
+        public ContactController(IUnitOfWork unitOfWork, IOptions<EmailSettings> emailSettings)
         {
             _unitOfWork = unitOfWork;
             _emailSettings = emailSettings.Value;
@@ -44,7 +39,7 @@ namespace portfolioASP.Areas.Admin.Controllers
 
         public IActionResult Details(int? id)
         {
-            EmailMessage? emailMessage = _unitOfWork.EmailMessageRepository.Get( u => u.Id == id );
+            EmailMessage? emailMessage = _unitOfWork.EmailMessageRepository.Get(u => u.Id == id);
 
             if (emailMessage == null) return NotFound();
 
@@ -55,6 +50,28 @@ namespace portfolioASP.Areas.Admin.Controllers
 
             return View(emailMessage);
         }
+
+        [HttpDelete]
+        public IActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return Json(new { success = false, message = "Nie przyjeto id" });
+            }
+
+            EmailMessage? emailMessage = _unitOfWork.EmailMessageRepository.Get(u => u.Id == id);
+
+            if (emailMessage == null)
+            {
+                return Json(new { success = false, message = "Nie znaleziono podanego id" });
+            }
+
+            _unitOfWork.EmailMessageRepository.Remove(emailMessage);
+            _unitOfWork.Save();
+            return Json(new { success = true, message = "Usunieto wiadomość" });
+        }
+
+        //EmailConfigure
 
         public IActionResult EmailConfigure()
         {
@@ -127,25 +144,98 @@ namespace portfolioASP.Areas.Admin.Controllers
             }
         }
 
+        //Contacts
+
+        public IActionResult ContactsIndex()
+        {
+            List<Contact> objContactsList = _unitOfWork.ContactRepository.GetAll().ToList();
+            return View("Contacts/ContactsIndex", objContactsList);
+        }
+
+        public IActionResult ContactsDetails(int? id)
+        {
+            if (id != null || id != 0)
+            {
+                Contact? contactFromDb = _unitOfWork.ContactRepository.Get(u => u.Id == id);
+
+                if (contactFromDb == null)
+                {
+                    return NotFound();
+                }
+
+                return View("Contacts/ContactsDetails", contactFromDb);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
+
+        public IActionResult ContactsUpsert(int? id)
+        {
+
+            if (id == null || id == 0)
+            {
+                return View("Contacts/ContactsUpsert", new Contact());
+            }
+            else
+            {
+                Contact? contactFromDb = _unitOfWork.ContactRepository.Get(u => u.Id == id);
+
+                if (contactFromDb == null)
+                {
+                    return NotFound();
+                }
+
+                return View("Contacts/ContactsUpsert", contactFromDb);
+            }
+
+        }
+
+        [HttpPost]
+        public IActionResult ContactsUpsert(Contact contact)
+        {
+            if (ModelState.IsValid)
+            {
+
+                if (contact.Id == 0)
+                {
+                    _unitOfWork.ContactRepository.Add(contact);
+                }
+                else
+                {
+                    _unitOfWork.ContactRepository.Update(contact);
+                }
+
+                _unitOfWork.Save();
+                TempData["success"] = "Kontakt został utworzony.";
+                return RedirectToAction("ContactsIndex");
+            }
+            else
+            {
+                return View(contact);
+            }
+        }
+
         [HttpDelete]
-        public IActionResult Delete(int? id)
+        public IActionResult ContactsDelete(int? id)
         {
             if (id == null)
             {
                 return Json(new { success = false, message = "Nie przyjeto id" });
             }
 
-            EmailMessage? emailMessage = _unitOfWork.EmailMessageRepository.Get(u => u.Id == id);
+            Contact? contactFromDb = _unitOfWork.ContactRepository.Get(u => u.Id == id);
 
-            if (emailMessage == null)
+            if (contactFromDb == null)
             {
                 return Json(new { success = false, message = "Nie znaleziono podanego id" });
             }
 
-            _unitOfWork.EmailMessageRepository.Remove(emailMessage);
+            _unitOfWork.ContactRepository.Remove(contactFromDb);
             _unitOfWork.Save();
-            return Json(new { success = true, message = "Usunieto wiadomość" });
+            return Json(new { success = true, message = "Usunieto kontakt" });
         }
-
     }
 }
