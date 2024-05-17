@@ -12,5 +12,6 @@ namespace portfolio.Models.ViewModels
         public NavbarLogo NavbarLogo { get; set; }
         public Welcome Welcome { get; set; }
         public Footer Footer { get; set; }
+        public EditAdminLogin EditAdminLogin { get; set; }
     }
 }

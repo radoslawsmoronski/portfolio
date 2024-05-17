@@ -5,10 +5,12 @@ using portfolio.DataAccess.Repository.IRepository;
 using portfolio.Models;
 using portfolio.Models.Email;
 using portfolio.Models.ViewModels;
+using portfolio.Utility;
 
 namespace portfolioASP.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [SessionAuthorization]
     public class ContactController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -101,6 +103,8 @@ namespace portfolioASP.Areas.Admin.Controllers
             try
             {
                 emailSettings.CheckConnection();
+
+                EditAppSettings.AddOrUpdateAppSetting<String>("EmailSettings:Password", emailSettings.Password);
 
                 TempData["success"] = "Dane zostały zmienione pomyślnie.";
                 return RedirectToAction("EmailConfigure");

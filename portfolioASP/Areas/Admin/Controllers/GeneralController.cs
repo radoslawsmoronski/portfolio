@@ -1,20 +1,22 @@
-﻿using Microsoft.AspNetCore.Components.Routing;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using portfolio.DataAccess.Json;
 using portfolio.Models;
+using portfolio.Models.Email;
 using portfolio.Models.ViewModels;
+using portfolio.Utility;
 
 namespace portfolioASP.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [SessionAuthorization]
     public class GeneralController : Controller
     {
         IWebHostEnvironment _webHostEnvironment;
         AdminGeneralViewModel _viewModel;
+        private readonly AdminLogin _adminLogin;
 
-        public GeneralController(IWebHostEnvironment webHostEnvironment)
+        public GeneralController(IWebHostEnvironment webHostEnvironment, IOptionsSnapshot<AdminLogin> adminLogin)
         {
             _webHostEnvironment = webHostEnvironment;
 
@@ -23,15 +25,16 @@ namespace portfolioASP.Areas.Admin.Controllers
             Welcome welcome = JsonFileManager<Welcome>.Get();
             Footer footer = JsonFileManager<Footer>.Get();
 
-
-
             _viewModel = new AdminGeneralViewModel
             {
                 WebsiteTitle = websiteTitle,
                 NavbarLogo = navbarLogo,
                 Welcome = welcome,
-                Footer = footer
+                Footer = footer,
+                EditAdminLogin = new EditAdminLogin()
             };
+
+            _adminLogin = adminLogin.Value;
         }
 
         public IActionResult Index()
@@ -177,6 +180,35 @@ namespace portfolioASP.Areas.Admin.Controllers
 
             TempData["success"] = "Edytowałes sekecji Stopka";
             return RedirectToAction("Index");
+        }
+
+
+        //EditPassword
+
+        public IActionResult EditPassword()
+        {
+            return View(_viewModel.EditAdminLogin);
+        }
+
+        [HttpPost]
+        public IActionResult EditPassword(EditAdminLogin editAdminLogin)
+        {
+            if (ModelState.IsValid)
+            {
+                if (BCrypt.Net.BCrypt.Verify(editAdminLogin.Password, _adminLogin.Password))
+                {
+                    string newHashedPassword = BCrypt.Net.BCrypt.HashPassword(editAdminLogin.NewPassword);
+
+                    EditAppSettings.AddOrUpdateAppSetting<String>("AdminLogin:Password", newHashedPassword);
+                    TempData["success"] = "Zmieniono hasło pomyślnie.";
+                    return RedirectToAction("Index");
+
+                }
+            }
+
+            TempData["error"] = "Użyłeś niepoprawnego aktualnego hasła.";
+
+            return View(_viewModel.EditAdminLogin);
         }
     }
 }
