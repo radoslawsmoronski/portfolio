@@ -117,34 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddButton" xml:space="preserve">
-    <value>Add</value>
+  <data name="IdNotFound" xml:space="preserve">
+    <value>Id not found.</value>
   </data>
-  <data name="DeleteButton" xml:space="preserve">
-    <value>Delete</value>
+  <data name="IdNotProvided" xml:space="preserve">
+    <value>Id not provided.</value>
   </data>
-  <data name="DetailsButton" xml:space="preserve">
-    <value>Details</value>
+  <data name="ProjectWasAdded" xml:space="preserve">
+    <value>Project has been added.</value>
   </data>
-  <data name="EditButton" xml:space="preserve">
-    <value>Edit</value>
+  <data name="ProjectWasEdited" xml:space="preserve">
+    <value>Project has been edited.</value>
   </data>
-  <data name="Image" xml:space="preserve">
-    <value>Image</value>
-  </data>
-  <data name="Name" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="SweetAlertCancelButtonText" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="SweetAlertConfirmButtonText" xml:space="preserve">
-    <value>Yes, delete</value>
-  </data>
-  <data name="SweetAlertTitle" xml:space="preserve">
-    <value>Are you sure to remove project?</value>
-  </data>
-  <data name="Title" xml:space="preserve">
-    <value>Section - Portfolio</value>
+  <data name="ProjectWasRemoved" xml:space="preserve">
+    <value>Project has been removed.</value>
   </data>
 </root>

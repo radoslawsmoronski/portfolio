@@ -123,6 +123,12 @@
   <data name="Contact" xml:space="preserve">
     <value>Contact</value>
   </data>
+  <data name="NotifiHomeMessageSendError" xml:space="preserve">
+    <value>test2</value>
+  </data>
+  <data name="NotifiHomeMessageWasSent" xml:space="preserve">
+    <value>test1</value>
+  </data>
   <data name="Projects" xml:space="preserve">
     <value>Projects</value>
   </data>

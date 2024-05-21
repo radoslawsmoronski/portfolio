@@ -117,34 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddButton" xml:space="preserve">
-    <value>Add</value>
+  <data name="EditedWebsiteTitle" xml:space="preserve">
+    <value>Zakładka strony została edytowana.</value>
   </data>
-  <data name="DeleteButton" xml:space="preserve">
-    <value>Delete</value>
+  <data name="FooterWasEdited" xml:space="preserve">
+    <value>Stopka została edytowana.</value>
   </data>
-  <data name="DetailsButton" xml:space="preserve">
-    <value>Details</value>
+  <data name="ImageWasRemoved" xml:space="preserve">
+    <value>Obrazek został usunięty.</value>
   </data>
-  <data name="EditButton" xml:space="preserve">
-    <value>Edit</value>
+  <data name="MenuWasEdited" xml:space="preserve">
+    <value>Menu zostało edytowane.</value>
   </data>
-  <data name="Image" xml:space="preserve">
-    <value>Image</value>
+  <data name="PasswordWasChanged" xml:space="preserve">
+    <value>Hasło dostępu zostało zmienione.</value>
   </data>
-  <data name="Name" xml:space="preserve">
-    <value>Name</value>
+  <data name="WelcomeSectionWasEdited" xml:space="preserve">
+    <value>Sekcja powitalna została edytowana.</value>
   </data>
-  <data name="SweetAlertCancelButtonText" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="SweetAlertConfirmButtonText" xml:space="preserve">
-    <value>Yes, delete</value>
-  </data>
-  <data name="SweetAlertTitle" xml:space="preserve">
-    <value>Are you sure to remove project?</value>
-  </data>
-  <data name="Title" xml:space="preserve">
-    <value>Section - Portfolio</value>
+  <data name="WrongCurrentPassword" xml:space="preserve">
+    <value>Aktualne hasło dostępu jest inne.</value>
   </data>
 </root>
