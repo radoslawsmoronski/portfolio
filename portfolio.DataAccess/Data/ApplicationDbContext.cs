@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using portfolio.Models;
 using portfolio.Models.Email;
+using portfolio.Models.Project;
+using portfolio.Models.Skill;
 
 namespace portfolio.DataAccess.Data
 {
@@ -19,19 +21,19 @@ namespace portfolio.DataAccess.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Skill>().HasData(
-                new Skill { Id = 1, Name="C#"},
-                new Skill { Id = 2, Name = "C#2"},
-                new Skill { Id = 3, Name = "C#3"},
-                new Skill { Id = 4, Name = "C#4"},
-                new Skill { Id = 5, Name = "C#5"}
+                new Skill { Id = 1, NameENG="C#", NamePL = "PL C#" },
+                new Skill { Id = 2, NameENG = "C#2", NamePL = "PL C#2" },
+                new Skill { Id = 3, NameENG = "C#3", NamePL = "PL C#3" },
+                new Skill { Id = 4, NameENG = "C#4", NamePL = "PL C#4" },
+                new Skill { Id = 5, NameENG = "C#5", NamePL = "PL C#5" }
                 );
 
             string description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer gravida felis in ultrices molestie.";
 
             modelBuilder.Entity<Project>().HasData(
-                new Project { Id = 1, Name="Project#1", Description = description, GitRepositoryUrl="git"},
-                new Project { Id = 2, Name = "Project#2", Description = description, GitRepositoryUrl = "git" },
-                new Project { Id = 3, Name = "Project#3", Description = description, GitRepositoryUrl = "git" }
+                new Project { Id = 1, NameENG ="Project#1", NamePL = "Projekt#1", DescriptionENG = description, DescriptionPL = "PL " + description, GitRepositoryUrl ="git"},
+                new Project { Id = 2, NameENG = "Project#2", NamePL = "Projekt#2", DescriptionENG = description, DescriptionPL = "PL " + description, ProjectWebsiteUrl="git" },
+                new Project { Id = 3, NameENG = "Project#3", NamePL = "Projekt#3", DescriptionENG = description, DescriptionPL = "PL " + description, GitRepositoryUrl = "git", ProjectWebsiteUrl="git" }
                 );
 
             modelBuilder.Entity<Contact>().HasData(

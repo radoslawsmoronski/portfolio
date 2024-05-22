@@ -7,6 +7,12 @@ using portfolio.Models.ViewModels;
 using portfolio.Utility.Email;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc.Localization;
+using portfolio.Models.AboutMe;
+using System.Globalization;
+using portfolio.Models.WebsiteTitle;
+using portfolio.Models.NavbarLogo;
+using portfolio.Models.Footer;
+using portfolio.Models.Welcome;
 
 namespace portfolioASP.Areas.View.Controllers
 {
@@ -17,6 +23,7 @@ namespace portfolioASP.Areas.View.Controllers
         private readonly IEmailService _emailService;
         private readonly ViewHomePageViewModel _model;
         private readonly IHtmlLocalizer<HomeController> _localizer;
+        private readonly string currentUICulture = CultureInfo.CurrentUICulture.Name;
 
         public HomeController(IUnitOfWork unitOfWork, IEmailService emailService, IHtmlLocalizer<HomeController> localizer)
         {
@@ -25,11 +32,11 @@ namespace portfolioASP.Areas.View.Controllers
 
             _model = new ViewHomePageViewModel
             {
-                Welcome = JsonFileManager<Welcome>.Get(),
-                AboutMe = JsonFileManager<AboutMe>.Get(),
-                Skills = _unitOfWork.SkillRepository.GetAll().ToList(),
-                Projects = _unitOfWork.ProjectRepository.GetAll().ToList(),
-                Contacts = _unitOfWork.ContactRepository.GetAll().ToList(),
+                WelcomeView = new WelcomeView(JsonFileManager<Welcome>.Get(), currentUICulture),
+                AboutMeView = new AboutMeView(JsonFileManager<AboutMe>.Get(), currentUICulture),
+                SkillViews = _unitOfWork.SkillRepository.GetAllView(currentUICulture),
+                ProjectViews = _unitOfWork.ProjectRepository.GetAllView(currentUICulture),
+                Contacts = _unitOfWork.ContactRepository.GetAll().ToList()
             };
 
             _localizer = localizer;
@@ -37,14 +44,14 @@ namespace portfolioASP.Areas.View.Controllers
 
         public IActionResult Index()
         {
-            WebsiteTitle websiteTitle = JsonFileManager<WebsiteTitle>.Get();
-            ViewData["WebsiteTitle"] = websiteTitle;
+            WebsiteTitleView websiteTitleView = new WebsiteTitleView(JsonFileManager<WebsiteTitle>.Get(), currentUICulture);
+            ViewData["WebsiteTitleView"] = websiteTitleView;
 
-            NavbarLogo navbarLogo = JsonFileManager<NavbarLogo>.Get();
-            ViewData["NavbarLogo"] = navbarLogo;
+            NavbarLogoView navbarLogoView = new NavbarLogoView(JsonFileManager<NavbarLogo>.Get(), currentUICulture);
+            ViewData["NavbarLogoView"] = navbarLogoView;
 
-            Footer footer = JsonFileManager<Footer>.Get();
-            ViewData["Footer"] = footer;
+            FooterView footerView = new FooterView(JsonFileManager<Footer>.Get(), currentUICulture);
+            ViewData["FooterView"] = footerView;
 
             return View(_model);
         }
@@ -59,7 +66,9 @@ namespace portfolioASP.Areas.View.Controllers
 
             try
             {
-                AutoEmailMessageContent autoMessage =  JsonFileManager<AutoEmailMessageContent>.Get();
+
+
+                AutoEmailMessageContentView autoMessage = new AutoEmailMessageContentView(JsonFileManager<AutoEmailMessageContent>.Get(), currentUICulture);
                 await _emailService.SendEmailAsync(contactForm.Email, autoMessage.Subject, autoMessage.Content);
 
                 var message = new EmailMessage

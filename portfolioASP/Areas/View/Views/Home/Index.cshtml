@@ -9,18 +9,18 @@
                 <div class="col-lg-9 col-md-9 col-9">
                     <h1 class="text-white header-socrates">
                         @{
-                            if (Model.Welcome.Header != null)
+                            if (Model.WelcomeView.Header != null)
                             {
-                                string title = Model.Welcome.Header.Replace("\r\n", "<br />");
+                                string title = Model.WelcomeView.Header.Replace("\r\n", "<br />");
                                 @Html.Raw(title)
                             }
                         }
                         </h1>
                     <div class="text-white">
                         @{
-                            if (Model.Welcome.Description != null)
+                            if (Model.WelcomeView.Description != null)
                             {
-                                string title = Model.Welcome.Description.Replace("\r\n", "<br />");
+                                string title = Model.WelcomeView.Description.Replace("\r\n", "<br />");
                                 @Html.Raw(title)
                             }
                         }
@@ -43,16 +43,16 @@
     <div class="container about-box">
         <div class="row pb-5 pt-5 d-flex align-items-center justify-content-center">
             <div class="col-lg-5 order-lg-2 col-md-12 text-center align-self-center pb-2 pt-2">
-                <img class="about-image" src="@(Model.AboutMe.ImageUrl != null ? Model.AboutMe.ImageUrl : @"\images\aboutme\default-aboutme.jpg")" />
+                <img class="about-image" src="@(Model.AboutMeView.ImageUrl != null ? Model.AboutMeView.ImageUrl : @"\images\aboutme\default-aboutme.jpg")" />
             </div>
             <div class="col-lg-7 order-lg-1 col-md-12 d-flex align-items-center justify-content-center pb-2 pt-2">
                 <div>
-                    <h3 class="text-center text-white">@Model.AboutMe.Title</h3>
+                    <h3 class="text-center text-white">@Model.AboutMeView.Title</h3>
                     <p class="text-center">
                         @{
-                            if (Model.AboutMe.Description != null)
+                            if (Model.AboutMeView.Description != null)
                             {
-                                string title = Model.AboutMe.Description.Replace("\r\n", "<br />");
+                                string title = Model.AboutMeView.Description.Replace("\r\n", "<br />");
                                 @Html.Raw(title)
                             }
                         }
@@ -71,7 +71,7 @@
     </div>
     <div class="container skills-box">
         <div class="row pb-5 pt-5 d-flex align-items-center justify-content-center">
-            @foreach(var obj in Model.Skills)
+            @foreach(var obj in Model.SkillViews)
             {
                 <div class="col-lg-2 col-md-4 col-6 mb-2 mt-2 text-center d-flex align-items-center justify-content-center">
                     <div>
@@ -93,26 +93,39 @@
     <div class="portfolio container">
         <div class="container">
             <div class="row pb-5 pt-5">
-                @foreach(var obj in Model.Projects)
+                @foreach(var obj in Model.ProjectViews)
                 {
                     <div class="col-lg-4 px-5 pb-5">
                         <div class="project-box text-center">
                             <img src="@(obj.ImageUrl != null ? obj.ImageUrl : @"\images\projects\default-project.png")" class="project-img" />
                             <div class="text-white pb-1 m-3" style="font-size: 25px;">@obj.Name</div>
                             <div class="cover text-center">
-                                <div class="text-white pb-3 m-3" style="font-size: 25px;">@obj.Name</div>
-                                <p class="text-white m-3">
-                                    @{
-                                        if (obj.Description != null)
-                                        {
-                                            string title = obj.Description.Replace("\r\n", "<br />");
-                                            @Html.Raw(title)
+                                <div class="description-box">
+                                    <div class="text-white pb-3 m-3" style="font-size: 25px;">@obj.Name</div>
+                                    <p class="text-white m-3">
+                                        @{
+                                            if (obj.Description != null)
+                                            {
+                                                string title = obj.Description.Replace("\r\n", "<br />");
+                                                @Html.Raw(title)
+                                            }
                                         }
+                                    </p>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-center">
+                                    @if (!string.IsNullOrEmpty(obj.GitRepositoryUrl))
+                                    {
+                                        <a class="btn btn-dark" target="_blank" href="@obj.GitRepositoryUrl">
+                                            <i class="bi bi-git text-white" style="font-size: 20px;"></i> <br> @Localizer["Repository"]
+                                        </a>
                                     }
-                                </p>
-                                <a class="btn btn-dark" href="@obj.GitRepositoryUrl" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);">
-                                    <i class="bi bi-github text-white" style="font-size: 35px;"></i> <br> Repozytorium
-                                </a>
+                                    @if (!string.IsNullOrEmpty(obj.ProjectWebsiteUrl))
+                                    {
+                                        <a class="btn btn-dark" target="_blank" href="@obj.ProjectWebsiteUrl">
+                                            <i class="bi bi-globe text-white" style="font-size: 20px;"></i> <br> @Localizer["Website"]
+                                        </a>
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>

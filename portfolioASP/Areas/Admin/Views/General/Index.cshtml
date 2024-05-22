@@ -11,8 +11,12 @@
                 <h1 class="text-white text-center mb-5">@Localizer["TabTitle"]</h1>
 
                 <div class="detail-box">
-                    <h5>@Localizer["TabHeader"]</h5>
-                    @Model.WebsiteTitle.Title
+                    <h5>@Localizer["TabHeader"] (ENG)</h5>
+                    @Model.WebsiteTitle.TitleENG
+                </div>
+                <div class="detail-box">
+                    <h5>@Localizer["TabHeader"] (PL)</h5>
+                    @Model.WebsiteTitle.TitlePL
                 </div>
 
                 <div class="detail-box">
@@ -40,11 +44,22 @@
                 <h1 class="text-white text-center mb-5">@Localizer["NavbarTitle"]</h1>
 
                 <div class="detail-box">
-                    <h5>@Localizer["NavbarHeader"]</h5>
+                    <h5>@Localizer["NavbarHeader"] (ENG)</h5>
                     @{
-                        if (Model.NavbarLogo.Title != null)
+                        if (Model.NavbarLogo.TitleENG != null)
                         {
-                            string title = Model.NavbarLogo.Title.Replace("\r\n", "<br />");
+                            string title = Model.NavbarLogo.TitleENG.Replace("\r\n", "<br />");
+                            @Html.Raw(title)
+                        }
+                    }
+                </div>
+
+                <div class="detail-box">
+                    <h5>@Localizer["NavbarHeader"] (PL)</h5>
+                    @{
+                        if (Model.NavbarLogo.TitlePL != null)
+                        {
+                            string title = Model.NavbarLogo.TitlePL.Replace("\r\n", "<br />");
                             @Html.Raw(title)
                         }
                     }
@@ -75,22 +90,44 @@
                 <h1 class="text-white text-center mb-5">@Localizer["WelcomeTitle"]</h1>
 
                 <div class="detail-box">
-                    <h5>@Localizer["WelcomeHeader"]</h5>
+                    <h5>@Localizer["WelcomeHeader"] (ENG)</h5>
                     @{
-                        if (Model.Welcome.Header != null)
+                        if (Model.Welcome.HeaderENG != null)
                         {
-                            string title = Model.Welcome.Header.Replace("\r\n", "<br />");
+                            string title = Model.Welcome.HeaderENG.Replace("\r\n", "<br />");
                             @Html.Raw(title)
                         }
                     }
                 </div>
 
                 <div class="detail-box">
-                    <h5>@Localizer["WelcomeDescription"]</h5>
+                    <h5>@Localizer["WelcomeHeader"] (PL)</h5>
                     @{
-                        if (Model.Welcome.Description != null)
+                        if (Model.Welcome.HeaderPL != null)
                         {
-                            string title = Model.Welcome.Description.Replace("\r\n", "<br />");
+                            string title = Model.Welcome.HeaderPL.Replace("\r\n", "<br />");
+                            @Html.Raw(title)
+                        }
+                    }
+                </div>
+
+                <div class="detail-box">
+                    <h5>@Localizer["WelcomeDescription"] (ENG)</h5>
+                    @{
+                        if (Model.Welcome.DescriptionENG != null)
+                        {
+                            string title = Model.Welcome.DescriptionENG.Replace("\r\n", "<br />");
+                            @Html.Raw(title)
+                        }
+                    }
+                </div>
+
+                <div class="detail-box">
+                    <h5>@Localizer["WelcomeDescription"] (PL)</h5>
+                    @{
+                        if (Model.Welcome.DescriptionPL != null)
+                        {
+                            string title = Model.Welcome.DescriptionPL.Replace("\r\n", "<br />");
                             @Html.Raw(title)
                         }
                     }
@@ -107,8 +144,13 @@
                 <h1 class="text-white text-center mb-5">@Localizer["FooterTitle"]</h1>
 
                 <div class="detail-box">
-                    <h5>@Localizer["FooterContant"]</h5>
-                    @Html.Raw(Model.Footer.Content)
+                    <h5>@Localizer["FooterContant"] (ENG)</h5>
+                    @Html.Raw(Model.Footer.ContentENG)
+                </div>
+
+                <div class="detail-box">
+                    <h5>@Localizer["FooterContant"] (PL)</h5>
+                    @Html.Raw(Model.Footer.ContentPL)
                 </div>
 
                 <a asp-controller="General" asp-action="EditFooter" class="btn btn-dark mb-2 col-12 col-md-6 col-lg-3">@Localizer["FooterEditButton"]</a>

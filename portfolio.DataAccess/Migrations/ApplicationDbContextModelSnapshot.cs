@@ -138,7 +138,7 @@ namespace portfolio.DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("portfolio.Models.Project", b =>
+            modelBuilder.Entity("portfolio.Models.Project.Project", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -146,22 +146,34 @@ namespace portfolio.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Description")
+                    b.Property<string>("DescriptionENG")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("DescriptionPL")
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("GitRepositoryUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("NameENG")
                         .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("NamePL")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("ProjectWebsiteUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -171,27 +183,34 @@ namespace portfolio.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer gravida felis in ultrices molestie.",
+                            DescriptionENG = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer gravida felis in ultrices molestie.",
+                            DescriptionPL = "PL Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer gravida felis in ultrices molestie.",
                             GitRepositoryUrl = "git",
-                            Name = "Project#1"
+                            NameENG = "Project#1",
+                            NamePL = "Projekt#1"
                         },
                         new
                         {
                             Id = 2,
-                            Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer gravida felis in ultrices molestie.",
-                            GitRepositoryUrl = "git",
-                            Name = "Project#2"
+                            DescriptionENG = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer gravida felis in ultrices molestie.",
+                            DescriptionPL = "PL Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer gravida felis in ultrices molestie.",
+                            NameENG = "Project#2",
+                            NamePL = "Projekt#2",
+                            ProjectWebsiteUrl = "git"
                         },
                         new
                         {
                             Id = 3,
-                            Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer gravida felis in ultrices molestie.",
+                            DescriptionENG = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer gravida felis in ultrices molestie.",
+                            DescriptionPL = "PL Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer gravida felis in ultrices molestie.",
                             GitRepositoryUrl = "git",
-                            Name = "Project#3"
+                            NameENG = "Project#3",
+                            NamePL = "Projekt#3",
+                            ProjectWebsiteUrl = "git"
                         });
                 });
 
-            modelBuilder.Entity("portfolio.Models.Skill", b =>
+            modelBuilder.Entity("portfolio.Models.Skill.Skill", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -202,7 +221,12 @@ namespace portfolio.DataAccess.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("NameENG")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("NamePL")
                         .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
@@ -215,27 +239,32 @@ namespace portfolio.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "C#"
+                            NameENG = "C#",
+                            NamePL = "PL C#"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "C#2"
+                            NameENG = "C#2",
+                            NamePL = "PL C#2"
                         },
                         new
                         {
                             Id = 3,
-                            Name = "C#3"
+                            NameENG = "C#3",
+                            NamePL = "PL C#3"
                         },
                         new
                         {
                             Id = 4,
-                            Name = "C#4"
+                            NameENG = "C#4",
+                            NamePL = "PL C#4"
                         },
                         new
                         {
                             Id = 5,
-                            Name = "C#5"
+                            NameENG = "C#5",
+                            NamePL = "PL C#5"
                         });
                 });
 #pragma warning restore 612, 618

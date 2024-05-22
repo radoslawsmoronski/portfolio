@@ -6,6 +6,10 @@ using portfolio.Models.Email;
 using portfolio.Models.ViewModels;
 using portfolio.Utility;
 using Microsoft.AspNetCore.Mvc.Localization;
+using portfolio.Models.WebsiteTitle;
+using portfolio.Models.NavbarLogo;
+using portfolio.Models.Footer;
+using portfolio.Models.Welcome;
 
 namespace portfolioASP.Areas.Admin.Controllers
 {

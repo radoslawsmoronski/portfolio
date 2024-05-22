@@ -9,14 +9,14 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
 
     @{
-        WebsiteTitle? websiteTitle = ViewData["WebsiteTitle"] as WebsiteTitle;
+        WebsiteTitleView? websiteTitleView = ViewData["WebsiteTitleView"] as WebsiteTitleView;
 
-        @if (websiteTitle != null)
+        @if (websiteTitleView != null)
         {
-            <title>@websiteTitle.Title</title>
-            if(websiteTitle.ImageUrl != null)
+            <title>@websiteTitleView.Title</title>
+            if (websiteTitleView.ImageUrl != null)
             {
-                <link rel="icon" href="@websiteTitle.ImageUrl">
+                <link rel="icon" href="@websiteTitleView.ImageUrl">
             }
         }
     }
@@ -29,20 +29,20 @@
                 <div style="display:flex; align-items:center;">
                     <a class="navbar-brand text-white" style="font-size: 10px; display:flex; align-items:center;" href="#">
                         @{
-                            NavbarLogo? navbarLogo = ViewData["NavbarLogo"] as NavbarLogo;
+                            NavbarLogoView? navbarLogoView = ViewData["NavbarLogoView"] as NavbarLogoView;
 
-                            @if (navbarLogo != null)
+                            @if (navbarLogoView != null)
                             {
-                                @if (navbarLogo.ImageUrl != null)
+                                @if (navbarLogoView.ImageUrl != null)
                                 {
-                                    <img src="@navbarLogo.ImageUrl" style="height: 40px; margin-right: 10px;" alt="Logo" />
+                                    <img src="@navbarLogoView.ImageUrl" style="height: 40px; margin-right: 10px;" alt="Logo" />
                                 }
 
                                 <div class="logo-text">
                                     @{
-                                        if (navbarLogo.Title != null)
+                                        if (navbarLogoView.Title != null)
                                         {
-                                            string title = navbarLogo.Title.Replace("\r\n", "<br />");
+                                            string title = navbarLogoView.Title.Replace("\r\n", "<br />");
                                             @Html.Raw(title)
                                         }
                                     }
@@ -92,11 +92,11 @@
         </div> *@
 
         @{
-            Footer? footer = ViewData["Footer"] as Footer;
+            FooterView? footerView = ViewData["FooterView"] as FooterView;
 
-            @if(footer != null)
+            @if(footerView != null)
             {
-                @Html.Raw(footer.Content)
+                @Html.Raw(footerView.Content)
             }
         }
 
