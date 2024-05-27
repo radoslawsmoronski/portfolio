@@ -3,6 +3,11 @@
 #welcome {
     background-image: url("../../images/background.jpg");
     background-position: center;
+    height: 100vh;
+}
+
+.welcome-row {
+    height: 100vh;
 }
 
 .socrates-img {
@@ -13,13 +18,41 @@
     right: 0;
 }
 
-@media (max-width: 575.98px) {
+@media (max-width: 768px) {
+    #welcome {
+        margin-top: 75px;
+        height: 90vh;
+        background-size: cover;
+    }
+
+    .welcome-row {
+        height: 90vh;
+    }
+
+    .welcome-text {
+        text-align: center;
+        padding: 30px;
+    }
+
     .header-socrates {
-        font-size: 22px;
+        font-size: 30px;
+    }
+
+    .description-socrates {
+        font-size: 20px;
     }
 
     .socrates-img {
-        height: 75%;
+        height: 100%;
+        width: auto;
+    }
+
+    .socrates-col {
+        height: 60vh;
+    }
+
+    .header-col {
+        height: 30vh;
     }
 }
 
@@ -41,6 +74,20 @@
     height: 250px;
     object-fit: cover;
     border-radius: 50%;
+}
+
+@media (max-width: 768px) {
+    .about-image {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    .about-box {
+        padding-right: 10%;
+        padding-left: 10%;
+    }
 }
 
 
@@ -71,6 +118,7 @@
     background-color: rgba(0, 0, 0, 0.5);
     opacity: 0;
     transition: opacity 0.3s ease, backdrop-filter 0.3s ease;
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
 
@@ -93,9 +141,13 @@
     width: 100%;
 }
 
-@media (max-width: 575.98px) {
+@media (max-width: 768px) {
     .project-img {
-        height: 350px;
+        height: 275px;
+    }
+
+    .cover .description-box {
+        height: 235px;
     }
 }
 
@@ -137,13 +189,49 @@
     margin-right: 20px;
 }
 
+@media (max-width: 768px) {
+    .form-label {
+        font-size: 20px;
+
+    }
+
+    .form-input {
+        height: 55px;
+        font-size: 18px;
+    }
+
+    .form-input-big {
+        height: 150px;
+        font-size: 18px;
+    }
+
+    .btn-form {
+        width: 100%;
+        height: 55px;
+        font-size: 18px;
+    }
+}
+
 
 
 /*Additional CSS*/
 
 .section-header {
+    font-weight: bold;
     width: 100%;
-    height: 100px;
-    padding: 30px;
+    padding: 25px;
     background-color: #1E2427;
+    color: white;
+    font-size: 35px;
+}
+
+@media (max-width: 768px) {
+    .section-header {
+        width: 100%;
+        padding: 20px;
+        text-align: center;
+        background-color: #1E2427;
+        color: white;
+        font-size: 25px;
+    }
 }
