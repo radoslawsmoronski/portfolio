@@ -44,6 +44,7 @@ namespace portfolioASP
                 options.DefaultRequestCulture = new RequestCulture("en-GB");
                 options.SupportedUICultures = supportedCultures;
 
+                options.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider());
             });
 
             builder.Services.AddDbContext<ApplicationDbContext>
@@ -79,6 +80,9 @@ namespace portfolioASP
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            var localizationOptions = app.Services.GetService<IOptions<RequestLocalizationOptions>>().Value;
+            app.UseRequestLocalization(localizationOptions);
 
             app.UseSession();
 

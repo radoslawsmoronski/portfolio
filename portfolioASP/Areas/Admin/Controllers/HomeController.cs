@@ -6,6 +6,8 @@ using portfolio.Models.Email;
 using portfolio.Models.ViewModels;
 using portfolio.Utility;
 using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
 
 namespace portfolioASP.Areas.Admin.Controllers
 {
@@ -23,6 +25,8 @@ namespace portfolioASP.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
+            HttpContext.Session.SetString("IsActiveSession", "true");
+
             var isActiveSession = HttpContext.Session.GetString("IsActiveSession");
 
             if (isActiveSession == "true")
@@ -85,6 +89,20 @@ namespace portfolioASP.Areas.Admin.Controllers
 
             TempData["success"] = _localizer["Logout"].Value;
             return RedirectToAction("Index", new { area = "View" });
+        }
+        public IActionResult ChangeLanguage(string lang)
+        {
+            if (!string.IsNullOrEmpty(lang))
+            {
+                var culture = new CultureInfo(lang);
+                Response.Cookies.Append(
+                    CookieRequestCultureProvider.DefaultCookieName,
+                    CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                    new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+                );
+            }
+
+            return Redirect(Request.Headers["Referer"].ToString());
         }
 
     }
