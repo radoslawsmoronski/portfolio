@@ -1,0 +1,156 @@
+﻿@model List<Contact>
+
+<style>
+    #box {
+        padding-top: 5%;
+        margin-bottom: 10%;
+    }
+
+        #box th {
+            background-color: #1E2427;
+            color: #e3e3e3;
+        }
+
+        #box td {
+            background-color: #151a1c;
+            color: #e3e3e3;
+            border-bottom: 1px solid #1E2427;
+        }
+
+
+    .add-btn {
+        width: 200px;
+        float: right;
+    }
+
+    .details-btn {
+        width: 200px;
+        height: 50px;
+        float: right;
+    }
+
+    .upsert-btn {
+        width: 200px;
+        height: 50px;
+        float: right;
+    }
+
+    .delete-btn {
+        width: 200px;
+        height: 50px;
+        float: right;
+    }
+
+    .contact-icon {
+        font-size: 30px;
+    }
+
+    .contact-header {
+        background-color: #1E2427;
+    }
+
+
+    @@media (max-width: 768px) {
+
+        .add-btn {
+            width: 100px;
+        }
+
+        .details-btn {
+            width: 100px;
+            height: 40px;
+        }
+
+        span {
+            display: none;
+        }
+
+        .upsert-btn {
+            width: 100px;
+            height: 40px;
+        }
+
+        .delete-btn {
+            width: 100px;
+            height: 40px;
+        }
+
+        .contact-icon {
+            font-size: 80px;
+        }
+
+        .nav-btn {
+            width: 49%;
+        }
+
+</style>
+
+<section id="box">
+    <div class="container">
+        <div class="contact-header mb-5 p-2">
+            <a asp-controller="Contact" asp-action="Index" class="btn btn-outline-dark text-white nav-btn">
+                @Localizer["MessagesButton"]
+            </a>
+            <a asp-controller="Contact" asp-action="ContactsIndex" class="btn btn-dark nav-btn">
+                @Localizer["ContactsButton"]
+            </a>
+        </div>
+        <div class="header text-center mb-5">
+            <h1 class="text-white">@Localizer["Contacts"]</h1>
+        </div>
+        <div class="table-responsive">
+        <table class="table bg-dark">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">@Localizer["Name"]</th>
+                    <th scope="col">@Localizer["Icon"]</th>
+                    <th scope="col">
+                        <a asp-controller="Contact" asp-action="ContactsUpsert" class="btn btn-dark add-btn">
+                            <i class="bi bi-plus-circle"></i>
+                            @Localizer["AddButton"]
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var obj in Model)
+                {
+                    <tr>
+                        <td>@obj.Id</td>
+                        <td>
+                            @obj.Name
+                        </td>
+                        <td class="contact-icon">
+                            <i class="@(obj.Icon != null ? obj.Icon : "bi bi-person-rolodex")"></i>
+                        </td>
+                        <td class="text-center">
+                            @{
+                                string saTitle = Localizer["SweetAlertTitle"].Value;
+                                string saText = $"{obj.Name} (id: {obj.Id})";
+                                string saConfirmButtonText = Localizer["SweetAlertConfirmButtonText"].Value;
+                                string saCancelButtonText = Localizer["SweetAlertCancelButtonText"].Value;
+                            }
+
+                            <a onClick="Delete('/admin/contact/contactsdelete/@obj.Id', '@saTitle', '@saText', '@saConfirmButtonText', '@saCancelButtonText')" class="btn btn-danger delete-btn">
+                                <i class="bi bi-trash-fill"></i>
+                                <span>@Localizer["DeleteButton"]</span>
+                            </a>
+                            <a asp-controller="Contact" asp-action="ContactsUpsert" asp-route-id="@obj.Id" class="btn btn-dark upsert-btn">
+                                <i class="bi bi-pen"></i>
+                                <span>@Localizer["EditButton"]</span>
+                            </a>
+                            <a asp-controller="Contact" asp-action="ContactsDetails" asp-route-id="@obj.Id" class="btn btn-outline-dark details-btn">
+                                <i class="bi bi-search"></i>
+                                <span>@Localizer["DetailsButton"]</span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </div>
+    </div>
+</section>
+
+<script src="~/js/admin.js"></script>

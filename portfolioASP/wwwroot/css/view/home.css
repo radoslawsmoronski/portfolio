@@ -1,0 +1,238 @@
+﻿/*Welcome section CSS*/
+
+#welcome {
+    background-image: url("../../images/background.jpg");
+    background-position: center;
+    height: 100vh;
+}
+
+.welcome-row {
+    height: 100vh;
+}
+
+.socrates-img {
+    width: auto;
+    height: 95%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+@media (max-width: 768px) {
+    #welcome {
+        margin-top: 75px;
+        height: 90vh;
+        background-size: cover;
+    }
+
+    .welcome-row {
+        height: 90vh;
+    }
+
+    .welcome-text {
+        text-align: center;
+        padding: 30px;
+    }
+
+    .header-socrates {
+        font-size: 30px;
+    }
+
+    .description-socrates {
+        font-size: 20px;
+    }
+
+    .socrates-img {
+        height: 100%;
+        width: auto;
+    }
+
+    .socrates-col {
+        height: 60vh;
+    }
+
+    .header-col {
+        height: 30vh;
+    }
+}
+
+
+
+/*About Me section CSS*/
+
+#about {
+    background-color: #151a1c;
+}
+
+.about-box {
+    padding-right: 20%;
+    padding-left: 20%;
+}
+
+.about-image {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+@media (max-width: 768px) {
+    .about-image {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    .about-box {
+        padding-right: 10%;
+        padding-left: 10%;
+    }
+}
+
+
+/*Skills section CSS*/
+
+#skills {
+    background-color: #151a1c;
+}
+
+/*Projects section CSS*/
+
+#projects{
+>>>>>>> features
+    background-color: #151a1c;
+}
+
+.project-box {
+    background-color: #1E2427;
+    position: relative;
+    overflow: hidden;
+}
+
+.cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease, backdrop-filter 0.3s ease;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+.cover .description-box{
+    height: 260px;
+}
+
+.project-box-cover {
+    background-color: white;
+}
+
+.project-box:hover .cover {
+    opacity: 1;
+}
+
+
+.project-img {
+    object-fit: cover;
+    height: 300px;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .project-img {
+        height: 275px;
+    }
+
+    .cover .description-box {
+        height: 235px;
+    }
+}
+
+
+
+/*Contact section CSS*/
+
+#contact {
+    background-color: #151a1c;
+}
+
+.contact-box {
+}
+
+    .contact-box ul {
+        list-style-type: none;
+        padding: 0;
+        color: #8f8f8f;
+    }
+
+    .contact-box li a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50px;
+        text-decoration: none;
+        color: #8f8f8f;
+        font-size: 25px;
+        padding-left: 10px;
+        transition: background-color 0.3s ease;
+    }
+
+        .contact-box li a:hover {
+            background-color: #1E2427;
+        }
+
+.contact-icon {
+    font-size: 30px;
+    margin-right: 20px;
+}
+
+@media (max-width: 768px) {
+    .form-label {
+        font-size: 20px;
+
+    }
+
+    .form-input {
+        height: 55px;
+        font-size: 18px;
+    }
+
+    .form-input-big {
+        height: 150px;
+        font-size: 18px;
+    }
+
+    .btn-form {
+        width: 100%;
+        height: 55px;
+        font-size: 18px;
+    }
+}
+
+
+
+/*Additional CSS*/
+
+.section-header {
+    font-weight: bold;
+    width: 100%;
+    padding: 25px;
+    background-color: #1E2427;
+    color: white;
+    font-size: 35px;
+}
+
+@media (max-width: 768px) {
+    .section-header {
+        width: 100%;
+        padding: 20px;
+        text-align: center;
+        background-color: #1E2427;
+        color: white;
+        font-size: 25px;
+    }
+}

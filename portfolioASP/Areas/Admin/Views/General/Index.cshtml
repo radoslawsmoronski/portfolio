@@ -1,0 +1,172 @@
+﻿@model AdminGeneralViewModel
+<link rel="stylesheet" href="~/css/admin/datails.css" />
+
+<section id="box">
+    <div class="container">
+
+        
+        <div class="row mb-2">
+            <div class="col-0 col-lg-3 col-md-2"></div>
+            <div class="col-12 col-lg-6 col-md-8 box p-5">
+                <h1 class="text-white text-center mb-5">@Localizer["TabTitle"]</h1>
+
+                <div class="detail-box">
+                    <h5>@Localizer["TabTitleContent"] (ENG)</h5>
+                    @Model.WebsiteTab.TitleENG
+                </div>
+                <div class="detail-box">
+                    <h5>@Localizer["TabTitleContent"] (PL)</h5>
+                    @Model.WebsiteTab.TitlePL
+                </div>
+
+                <div class="detail-box">
+                    <h5>@Localizer["TabImage"]</h5>
+                    @{
+                        if (Model.WebsiteTab.ImageUrl != null)
+                        {
+                            <img style="height: 50px; width: 50px;" class="project-img" src="../../../@Model.WebsiteTab.ImageUrl"></img>
+                        }
+                        else
+                        {
+                            <p>brak</p>
+                        }
+                    }
+                </div>
+
+                <a asp-controller="General" asp-action="EditWebsiteTab" class="btn btn-dark mb-2 col-12 col-md-6 col-lg-3">@Localizer["TabEditButton"]</a>
+            </div>
+            <div class="col-0 col-lg-3 col-md-2"></div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-0 col-lg-3 col-md-2"></div>
+            <div class="col-12 col-lg-6 col-md-8 box p-5">
+                <h1 class="text-white text-center mb-5">@Localizer["NavbarTitle"]</h1>
+
+                <div class="detail-box">
+                    <h5>@Localizer["NavbarHeader"] (ENG)</h5>
+                    @{
+                        if (Model.Navbar.HeaderENG != null)
+                        {
+                            string title = Model.Navbar.HeaderENG.Replace("\r\n", "<br />");
+                            @Html.Raw(title)
+                        }
+                    }
+                </div>
+
+                <div class="detail-box">
+                    <h5>@Localizer["NavbarHeader"] (PL)</h5>
+                    @{
+                        if (Model.Navbar.HeaderPL != null)
+                        {
+                            string title = Model.Navbar.HeaderPL.Replace("\r\n", "<br />");
+                            @Html.Raw(title)
+                        }
+                    }
+                </div>
+
+                <div class="detail-box">
+                    <h5>@Localizer["NavbarImage"]</h5>
+                    @{
+                        if (Model.Navbar.ImageUrl != null)
+                        {
+                            <img style="height: 50px; width: 50px;" class="project-img" src="../../../@Model.Navbar.ImageUrl"></img>
+                        }
+                        else
+                        {
+                            <p>brak</p>
+                        }
+                    }
+                </div>
+
+                <a asp-controller="General" asp-action="EditNavbar" class="btn btn-dark mb-2 col-12 col-md-6 col-lg-3">@Localizer["NavbarEditButton"]</a>
+            </div>
+            <div class="col-0 col-lg-3 col-md-2"></div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-0 col-lg-3 col-md-2"></div>
+            <div class="col-12 col-lg-6 col-md-8 box p-5">
+                <h1 class="text-white text-center mb-5">@Localizer["WelcomeTitle"]</h1>
+
+                <div class="detail-box">
+                    <h5>@Localizer["WelcomeHeader"] (ENG)</h5>
+                    @{
+                        if (Model.Welcome.HeaderENG != null)
+                        {
+                            string title = Model.Welcome.HeaderENG.Replace("\r\n", "<br />");
+                            @Html.Raw(title)
+                        }
+                    }
+                </div>
+
+                <div class="detail-box">
+                    <h5>@Localizer["WelcomeHeader"] (PL)</h5>
+                    @{
+                        if (Model.Welcome.HeaderPL != null)
+                        {
+                            string title = Model.Welcome.HeaderPL.Replace("\r\n", "<br />");
+                            @Html.Raw(title)
+                        }
+                    }
+                </div>
+
+                <div class="detail-box">
+                    <h5>@Localizer["WelcomeDescription"] (ENG)</h5>
+                    @{
+                        if (Model.Welcome.DescriptionENG != null)
+                        {
+                            string title = Model.Welcome.DescriptionENG.Replace("\r\n", "<br />");
+                            @Html.Raw(title)
+                        }
+                    }
+                </div>
+
+                <div class="detail-box">
+                    <h5>@Localizer["WelcomeDescription"] (PL)</h5>
+                    @{
+                        if (Model.Welcome.DescriptionPL != null)
+                        {
+                            string title = Model.Welcome.DescriptionPL.Replace("\r\n", "<br />");
+                            @Html.Raw(title)
+                        }
+                    }
+                </div>
+
+                <a asp-controller="General" asp-action="EditWelcome" class="btn btn-dark mb-2 col-12 col-md-6 col-lg-3">@Localizer["WelcomeEditButton"]</a>
+            </div>
+            <div class="col-0 col-lg-3 col-md-2"></div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-0 col-lg-3 col-md-2"></div>
+            <div class="col-12 col-lg-6 col-md-8 box p-5">
+                <h1 class="text-white text-center mb-5">@Localizer["FooterTitle"]</h1>
+
+                <div class="detail-box">
+                    <h5>@Localizer["FooterContant"] (ENG)</h5>
+                    @Html.Raw(Model.Footer.ContentENG)
+                </div>
+
+                <div class="detail-box">
+                    <h5>@Localizer["FooterContant"] (PL)</h5>
+                    @Html.Raw(Model.Footer.ContentPL)
+                </div>
+
+                <a asp-controller="General" asp-action="EditFooter" class="btn btn-dark mb-2 col-12 col-md-6 col-lg-3">@Localizer["FooterEditButton"]</a>
+            </div>
+            <div class="col-1 col-lg-3 col-md-2"></div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-0 col-lg-3 col-md-2"></div>
+            <div class="col-12 col-lg-6 col-md-8 box p-5">
+                <h1 class="text-white text-center mb-5">@Localizer["EditPasswordTitle"]</h1>
+
+                <a asp-controller="General" asp-action="EditPassword" class="btn btn-dark col-12">@Localizer["EditPasswordEditButton"]</a>
+            </div>
+            <div class="col-0 col-lg-3 col-md-2"></div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,54 @@
+﻿@using portfolio.Models.AboutMe
+@model AboutMe
+<link rel="stylesheet" href="~/css/admin/datails.css" asp-append-version="true" />
+
+<section id="box">
+    <div class="container">
+        <div class="row">
+            <div class="col-0 col-lg-3 col-md-2"></div>
+            <div class="col-12 col-lg-6 col-md-8 box p-5">
+                <h1 class="text-white text-center mb-5">@Localizer["AboutMe"]</h1>
+
+                <div class="detail-box">
+                    <h5>@Localizer["Header"] (ENG)</h5>
+                    @Model.HeaderENG
+                </div>
+
+                <div class="detail-box">
+                    <h5>@Localizer["Header"] (PL)</h5>
+                    @Model.HeaderPL
+                </div>
+
+                <div class="detail-box">
+                    <h5>@Localizer["Content"] (ENG)</h5>
+                    @{
+                        if (Model.ContentENG != null)
+                        {
+                            string title = Model.ContentENG.Replace("\r\n", "<br />");
+                            @Html.Raw(title)
+                        }
+                    }
+                </div>
+
+                <div class="detail-box">
+                    <h5>@Localizer["Content"] (PL)</h5>
+                    @{
+                        if (Model.ContentPL != null)
+                        {
+                            string title = Model.ContentPL.Replace("\r\n", "<br />");
+                            @Html.Raw(title)
+                        }
+                    }
+                </div>
+
+                <div class="detail-box">
+                    <h5>@Localizer["Image"]</h5>
+                    <img class="project-img" src="../../../@(Model.ImageUrl != null ? Model.ImageUrl : @"\images\projects\default-project.png")"></img>
+                </div>
+
+                <a asp-controller="AboutMe" asp-action="Edit" class="btn btn-dark mb-2 col-12 col-md-6 col-lg-3">@Localizer["EditButton"]</a>
+            </div>
+            <div class="col-0 col-lg-3 col-md-2"></div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@Localizer["WebsiteTitle"]</title>
+    <link rel="icon" href="~/images/websiteTab/admin-default-icon.png">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css//admin/admin.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/portfolioASP.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm fixed-top">
+            <div class="container-fluid">
+                 <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="navbar-home">
+                    <i class="icon bi bi-house"></i>
+                    </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a asp-area="Admin" asp-controller="General" asp-action="Index" class="nav-link">@Localizer["General"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-area="Admin" asp-controller="AboutMe" asp-action="Index" class="nav-link">@Localizer["AboutMe"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-area="Admin" asp-controller="Skills" asp-action="Index" class="nav-link">@Localizer["Skills"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-area="Admin" asp-controller="Projects" asp-action="Index" class="nav-link">@Localizer["Projects"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-area="Admin" asp-controller="Contact" asp-action="Index" class="nav-link">@Localizer["Contact"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-area="View" asp-controller="Home" asp-action="Index" class="nav-link">@Localizer["Back"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-area="Admin" asp-controller="Home" asp-action="LogOut" class="nav-link" style="color: #ab0d02;">@Localizer["Logout"]</a>
+                        </li>
+                    </ul>
+                        <hr>
+                        <div class="language-imgs">
+                            <a class="language-btn mb-2" asp-controller="Home" asp-action="ChangeLanguage" asp-route-lang="en-GB">
+                                <img class="language-img" src="~/images/british-flag.png" /></img>
+                            </a>
+                            <a class="language-btn" asp-controller="Home" asp-action="ChangeLanguage" asp-route-lang="pl">
+                                <img class="language-img" src="~/images/polish-flag.png" /></img>
+                            </a>
+                        </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="content-container container">
+        <main role="main">
+            <partial name="_Notification" />
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

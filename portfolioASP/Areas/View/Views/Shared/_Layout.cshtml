@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/view/view.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/portfolioASP.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+
+    @{
+        WebsiteTabView? websiteTabView = ViewData["WebsiteTabView"] as WebsiteTabView;
+
+        @if (websiteTabView != null)
+        {
+            <title>@websiteTabView.Title</title>
+            if (websiteTabView.ImageUrl != null)
+            {
+                <link rel="icon" href="@websiteTabView.ImageUrl">
+            }
+            else
+            {
+                <link rel="icon" href="~/images/websiteTab/website-default-icon.png">
+            }
+        }
+    }
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-toggleable-md navbar-transparent box-shadow py-3 fixed-top">
+            <div class="container-fluid">
+                <div style="display:flex; align-items:center;">
+                    <a class="navbar-brand text-white" style="font-size: 10px; display:flex; align-items:center;" href="#">
+                        @{
+                            NavbarView? navbarView = ViewData["NavbarView"] as NavbarView;
+
+                            @if (navbarView != null)
+                            {
+                                @if (navbarView.ImageUrl != null)
+                                {
+                                    <img src="@navbarView.ImageUrl" style="height: 40px; margin-right: 10px;" alt="Logo" />
+                                }
+
+                                <div class="logo-text">
+                                    @{
+                                        if (navbarView.Header != null)
+                                        {
+                                            string title = navbarView.Header.Replace("\r\n", "<br />");
+                                            @Html.Raw(title)
+                                        }
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <p>Load Error</p>
+                            }
+
+                        }
+                    </a>
+                </div>
+                <button class="navbar-toggler bg-white text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style="right: 0;">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#about">@Localizer["AboutMe"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#skills">@Localizer["Skills"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#projects">@Localizer["Projects"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#contact">@Localizer["Contact"]</a>
+                        </li>
+                    </ul>
+                    <hr>
+                    <div class="language-imgs">
+                        <a class="language-btn mb-2" asp-controller="Home" asp-action="ChangeLanguage" asp-route-lang="en-GB">
+                            <img class="language-img" src="~/images/british-flag.png" /></img>
+                        </a>
+                        <a class="language-btn" asp-controller="Home" asp-action="ChangeLanguage" asp-route-lang="pl">
+                            <img class="language-img" src="~/images/polish-flag.png" /></img>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="main-container">
+        <main role="main">
+            <partial name="_Notification" />
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer d-flex align-items-center justify-content-center">
+        @{
+            FooterView? footerView = ViewData["FooterView"] as FooterView;
+
+            @if(footerView != null)
+            {
+                @Html.Raw(footerView.Content)
+            }
+        }
+
+    </footer>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="~/js/view/layout.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+﻿@model Project
+<link rel="stylesheet" href="~/css/admin/datails.css" />
+
+<section id="box">
+    <div class="container">
+        <div class="row">
+            <div class="col-0 col-lg-3 col-md-2"></div>
+            <div class="col-12 col-lg-6 col-md-8 box p-5">
+                <h1 class="text-white text-center mb-5">@Localizer["Title"]</h1>
+
+                <div class="detail-box">
+                    <h5>@Localizer["Name"] (ENG)</h5>
+                    @Model.NameENG
+                </div>
+
+                <div class="detail-box">
+                    <h5>@Localizer["Name"] (PL)</h5>
+                    @Model.NamePL
+                </div>
+
+                <div class="detail-box">
+                    <h5>@Localizer["Description"] (ENG)</h5>
+                    @{
+                        if (Model.DescriptionENG != null)
+                        {
+                            string title = Model.DescriptionENG.Replace("\r\n", "<br />");
+                            @Html.Raw(title)
+                        }
+                    }
+                </div>
+
+                <div class="detail-box">
+                    <h5>@Localizer["Description"] (PL)</h5>
+                    @{
+                        if (Model.DescriptionPL != null)
+                        {
+                            string title = Model.DescriptionPL.Replace("\r\n", "<br />");
+                            @Html.Raw(title)
+                        }
+                    }
+                </div>
+
+                <div class="detail-box">
+                    <h5>@Localizer["GitRepository"]</h5>
+                    @if ((Model.GitRepositoryUrl == null || Model.GitRepositoryUrl == ""))
+                    {
+                        @Localizer["UrlNotFound"]
+                    }
+                    else
+                    {
+                        <a class="text-body" href="@Model.GitRepositoryUrl" target="_blank">@Model.GitRepositoryUrl</a>
+                    }
+                </div>
+
+                <div class="detail-box">
+                    <h5>@Localizer["ProjectWebsiteUrl"]</h5>
+                    @if ((Model.ProjectWebsiteUrl == null || Model.ProjectWebsiteUrl == ""))
+                    {
+                        @Localizer["UrlNotFound"]
+                    }
+                    else
+                    {
+                        <a class="text-body" href="@Model.ProjectWebsiteUrl" target="_blank">@Model.ProjectWebsiteUrl</a>
+                    }
+                </div>
+
+                <div class="detail-box">
+                    <h5>@Localizer["Image"]</h5>
+                    <img class="project-img" src="../../../@(Model.ImageUrl != null ? Model.ImageUrl : @"\images\projects\default-project.png")"></img>
+                </div>
+
+                <a asp-controller="Projects" asp-action="Index" class="btn btn-dark mb-2 col-12 col-md-6 col-lg-3">@Localizer["BackButton"]</a>
+            </div>
+            <div class="col-0 col-lg-3 col-md-2"></div>
+        </div>
+    </div>
+</section>

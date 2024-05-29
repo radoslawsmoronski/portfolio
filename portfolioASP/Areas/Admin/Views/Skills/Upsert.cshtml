@@ -1,0 +1,49 @@
+﻿@model Skill
+<link rel="stylesheet" href="~/css/admin/datails.css" />
+
+<section id="box">
+    <div class="container">
+        <div class="row">
+            <div class="col-0 col-lg-3 col-md-2"></div>
+            <div class="col-12 col-lg-6 col-md-8 box p-5">
+                <h1 class="text-white text-center mb-5">@(Model.Id != 0 ? Localizer["Edit"] : Localizer["Add"]) @Localizer["Skills"]</h1>
+                    <form method="post" enctype="multipart/form-data">
+                        <input asp-for="Id" hidden />
+                        <input asp-for="ImageUrl" hidden />
+                        <div class="form-group mb-4">
+                        <label class="text-white">@Localizer["Name"] (ENG)</label>
+                            <input asp-for="NameENG" class="form-control" placeholder="@Localizer["NamePlaceholder"]">
+                            <span asp-validation-for="NameENG" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label class="text-white">@Localizer["Name"] (PL)</label>
+                            <input asp-for="NamePL" class="form-control" placeholder="@Localizer["NamePlaceholder"]">
+                            <span asp-validation-for="NamePL" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="text-white">@Localizer["Image"]</label>
+                            <input type="file" name="file" asp-for="ImageUrl" class="form-control border-0 shadow" />
+                        </div>
+                        <div class="row">
+                            @if(Model.Id != 0 )
+                            {
+                                <button type="submit" class="btn btn-dark mb-2 col-12 col-md-6 col-lg-3">@Localizer["EditButton"]</button>
+                            }
+                            else
+                            {
+                                <button type="submit" class="btn btn-dark mb-2 col-12 col-md-6 col-lg-3">@Localizer["AddButton"]</button>
+                            }
+                            <a asp-controller="skills" asp-action="index" class="btn btn-outline-dark mb-2 col-12 col-md-6 col-lg-3">@Localizer["BackButton"]</a>
+                        </div>
+                    </form>
+            </div>
+            <div class="col-0 col-lg-3 col-md-2"></div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial"/>
+    }
+}

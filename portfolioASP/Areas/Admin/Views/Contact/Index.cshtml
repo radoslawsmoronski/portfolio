@@ -1,0 +1,169 @@
+﻿@model AdminEmailsViewModel
+
+<style>
+    #box {
+        padding-top: 5%;
+        margin-bottom: 10%;
+    }
+
+        #box th {
+            background-color: #1E2427;
+            color: #e3e3e3;
+        }
+
+        #box td {
+            color: #e3e3e3;
+            border-bottom: 1px solid #1E2427;
+        }
+      
+
+    .add-btn {
+        width: 200px;
+        float: right;
+    }
+
+    .details-btn {
+        width: 200px;
+        height: 50px;
+        float: right;
+    }
+
+    .upsert-btn {
+        width: 200px;
+        height: 50px;
+        float: right;
+    }
+
+    .delete-btn {
+        width: 200px;
+        height: 50px;
+        float: right;
+    }
+
+    .project-img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .contact-header {
+        background-color: #1E2427;
+    }
+
+
+    @@media (max-width: 768px) {
+
+        .add-btn {
+            width: 100px;
+            font-size: 10px;
+        }
+
+        .details-btn {
+            width: 100px;
+            height: 40px;
+        }
+
+        span {
+            display: none;
+        }
+
+        .upsert-btn {
+            width: 100px;
+            height: 40px;
+        }
+
+        .delete-btn {
+            width: 100px;
+            height: 40px;
+        }
+
+        .project-img {
+            width: 120px;
+            height: 120px;
+        }
+
+        .nav-btn {
+            width: 49%;
+        }
+
+</style>
+
+<section id="box">
+    <div class="container">
+        <div class="contact-header mb-5 p-2">
+            <a asp-controller="Contact" asp-action="Index" class="btn btn-dark text-white nav-btn">
+                @Localizer["MessagesButton"]
+            </a>
+            <a asp-controller="Contact" asp-action="ContactsIndex" class="btn btn-outline-dark text-white nav-btn">
+                @Localizer["ContactsButton"]
+            </a>
+        </div>
+        <div class="header text-center mb-5">
+            <h1 class="text-white">@Localizer["Messages"] (@Model.UnreadEmailMessages / @Model.EmailMessages.Count())</h1>
+        </div>
+        <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <th scope="col">#</th>
+                <th scope="col">@Localizer["Email"]</th>
+                <th scope="col">@Localizer["Subject"]</th>
+                <th scope="col">
+                    <a asp-controller="Contact" asp-action="EmailConfigure" class="btn btn-dark add-btn">
+                        <i class="bi bi-gear"></i>
+                        @Localizer["SettingsButton"]
+                    </a>
+                </th>
+            </thead>
+            <tbody>
+                @{
+                    DateTime? dateTime = null;
+                }
+                @foreach(var obj in Model.EmailMessages)
+                {
+
+                    @if (dateTime != obj.SentAt.Date)
+                    {
+                        dateTime = obj.SentAt.Date;
+
+                        <tr class="table-dark">
+                            <td>@obj.SentAt.Date.ToString("yyyy-MM-dd")</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    }
+
+                    <tr class="@(obj.IsReaded ? "table-dark" : "table-secondary")">
+                        <td>@obj.SentAt.Hour:@obj.SentAt.Minute</td>
+                        <td>
+                            @obj.Email
+                        </td>
+                        <td>
+                            @obj.Subject
+                        </td>
+                        <td class="text-center">
+
+                            @{
+                                string saTitle = Localizer["SweetAlertTitle"].Value;
+                                string saText = $"{obj.Name} (id: {obj.Id})";
+                                string saConfirmButtonText = Localizer["SweetAlertConfirmButtonText"].Value;
+                                string saCancelButtonText = Localizer["SweetAlertCancelButtonText"].Value;
+                            }
+
+                            <a onClick="Delete('/admin/contact/delete/@obj.Id', '@saTitle', '@saText', '@saConfirmButtonText', '@saCancelButtonText')" class="btn btn-danger delete-btn">
+                                <i class="bi bi-trash-fill"></i>
+                                <span>@Localizer["DeleteButton"]</span>
+                            </a>
+                            <a asp-controller="Contact" asp-action="Details" asp-route-id="@obj.Id" class="btn btn-outline-dark details-btn">
+                                <i class="bi bi-search"></i>
+                                <span>@Localizer["DetailsButton"]</span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </div>
+    </div>
+</section>
+
+<script src="~/js/admin.js"></script>

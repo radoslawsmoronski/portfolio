@@ -1,0 +1,88 @@
+﻿@model AdminEmailsEmailConfigureDetailsPageViewModel
+<link rel="stylesheet" href="~/css/admin/datails.css" />
+
+<section id="box">
+    <div class="container">
+        <div class="row">
+            <div class="col-1 col-lg-3 col-md-2"></div>
+            <div class="col-10 col-lg-6 col-md-8 box p-5">
+                <h1 class="text-white text-center mb-5">@Localizer["Message"]</h1>
+
+                <div class="detail-box">
+                    <h5>@Localizer["Subject"] (ENG)</h5>
+                    @Model.EmailMessageContent.SubjectENG
+                </div>
+
+                <div class="detail-box">
+                    <h5>@Localizer["Subject"] (PL)</h5>
+                    @Model.EmailMessageContent.SubjectPL
+                </div>
+
+                <div class="detail-box">
+                    <h5>@Localizer["Content"] (ENG)</h5>
+                    @{
+                        if (Model.EmailMessageContent.ContentENG != null)
+                        {
+                            string title = Model.EmailMessageContent.ContentENG.Replace("\r\n", "<br />");
+                            @Html.Raw(title)
+                        }
+                    }
+                </div>
+
+                <div class="detail-box">
+                    <h5>@Localizer["Content"] (PL)</h5>
+                    @{
+                        if (Model.EmailMessageContent.ContentPL != null)
+                        {
+                            string title = Model.EmailMessageContent.ContentPL.Replace("\r\n", "<br />");
+                            @Html.Raw(title)
+                        }
+                    }
+                </div>
+
+                <a asp-controller="Contact" asp-action="MessageEdit" class="btn btn-dark mb-2 col-12 col-md-6 col-lg-3">@Localizer["EditButton1"]</a>
+            </div>
+            <div class="col-1 col-lg-3 col-md-2"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-1 col-lg-3 col-md-2"></div>
+            <div class="col-10 col-lg-6 col-md-8 box p-5">
+                <h1 class="text-white text-center mb-5">@Localizer["Email"]</h1>
+
+                <div class="detail-box">
+                    <h5>@Localizer["EmailAddress"]</h5>
+                    @Model.EmailSettings.Email
+                </div>
+
+                <div class="detail-box">
+                    <h5>@Localizer["SmtpServer"]</h5>
+                    @Model.EmailSettings.SmtpServer
+                </div>
+
+                <div class="detail-box">
+                    <h5>@Localizer["SmtpPort"]</h5>
+                    @Model.EmailSettings.SmtpPort
+                </div>
+
+                <div class="detail-box">
+                    <h5>@Localizer["SmtpEncryption"]</h5>
+                    @Localizer[@Model.EmailSettings.Encryption.ToString()] (@(Model.EmailSettings.SmtpPort == 587 ? "StartTLS" : "SSL/TLS"))
+                </div>
+
+                <a asp-controller="Contact" asp-action="EmailEdit" class="btn btn-dark mb-2 col-12 col-md-6 col-lg-3">@Localizer["EditButton2"]</a>
+
+            </div>
+            <div class="col-1 col-lg-3 col-md-2"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-1 col-lg-3 col-md-2"></div>
+            <div class="col-10 col-lg-6 col-md-8 box p-5">
+                <a asp-controller="Contact" asp-action="Index" class="btn btn-dark mb-2 col-12">@Localizer["BackButton"]</a>
+            </div>
+            <div class="col-1 col-lg-3 col-md-2"></div>
+        </div>
+
+    </div>
+</section>

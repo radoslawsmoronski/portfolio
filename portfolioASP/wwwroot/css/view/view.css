@@ -1,0 +1,106 @@
+html {
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    background-color: #0F0F0F;
+    overflow-x: hidden;
+}
+
+.main-container {
+    margin-bottom: 100px;
+}
+
+footer {
+    height: 100px;
+    text-align: center;
+}
+
+
+
+/*navbar section*/
+
+.navbar {
+    transition: background-color 0.3s ease;
+}
+
+.navbar-solid {
+    background-color: #0F0F0F;
+    transition: background-color 0.3s ease;
+}
+
+.nav-item .nav-link {
+    color: #fff;
+}
+
+.nav-item:hover .nav-link {
+    color: #adadad;
+}
+
+.logo-text {
+    border-right: 2px solid white;
+    padding-right: 38px;
+}
+
+.language-btn {
+    height: 18px;
+    width: 30px;
+    display: block;
+    margin-right: 10px;
+}
+
+    .language-btn img {
+        height: 18px;
+        width: 30px;
+        transition: opacity 0.3s ease;
+    }
+
+        .language-btn img:hover {
+            opacity: 0.5;
+        }
+
+@media (max-width: 768px) {
+    .navbar {
+        background-color: #0F0F0F;
+    }
+
+    .logo-text {
+        border-right: 0px;
+        padding-right: 0px;
+    }
+
+    .language-btn {
+        height: 25px;
+        width: 40px;
+        float: left;
+    }
+
+        .language-btn img {
+            height: 25px;
+            width: 40px;
+            transition: opacity 0.3s ease;
+        }
+
+    .language-imgs {
+        margin-top: 20px;
+    }
+}
