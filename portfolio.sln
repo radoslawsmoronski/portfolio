@@ -27,6 +27,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "portfolioASP", "portfolio\portfolioASP.csproj", "{DB09F268-93CE-4498-91CF-77F835FFB469}"
 EndProject
 <<<<<<< HEAD
@@ -43,6 +44,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "portfolio.Models", "portfolio.Models\portfolio.Models.csproj", "{2AB2D74B-BDFC-4B0F-95ED-2E3CB6A24142}"
 >>>>>>> features
 =======
+=======
+>>>>>>> features
 =======
 >>>>>>> features
 =======
@@ -119,6 +122,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "portfolio.Models", "portfol
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> features
 =======
 >>>>>>> features
@@ -165,6 +169,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "portfolio.Models", "portfol
 =======
 >>>>>>> features
 =======
+>>>>>>> features
+=======
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C1A809F8-9982-422E-9414-5E6EC563BFAD}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE.txt = LICENSE.txt
+		README.md = README.md
+	EndProjectSection
 >>>>>>> features
 EndProject
 Global

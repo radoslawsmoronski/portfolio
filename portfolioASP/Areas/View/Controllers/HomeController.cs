@@ -9,8 +9,8 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc.Localization;
 using portfolio.Models.AboutMe;
 using System.Globalization;
-using portfolio.Models.WebsiteTitle;
-using portfolio.Models.NavbarLogo;
+using portfolio.Models.WebsiteTab;
+using portfolio.Models.Navbar;
 using portfolio.Models.Footer;
 using portfolio.Models.Welcome;
 using Microsoft.AspNetCore.Localization;
@@ -45,11 +45,11 @@ namespace portfolioASP.Areas.View.Controllers
 
         public IActionResult Index()
         {
-            WebsiteTitleView websiteTitleView = new WebsiteTitleView(JsonFileManager<WebsiteTitle>.Get(), currentUICulture);
-            ViewData["WebsiteTitleView"] = websiteTitleView;
+            WebsiteTabView websiteTabView = new WebsiteTabView(JsonFileManager<WebsiteTab>.Get(), currentUICulture);
+            ViewData["WebsiteTabView"] = websiteTabView;
 
-            NavbarLogoView navbarLogoView = new NavbarLogoView(JsonFileManager<NavbarLogo>.Get(), currentUICulture);
-            ViewData["NavbarLogoView"] = navbarLogoView;
+            NavbarView navbarView = new NavbarView(JsonFileManager<Navbar>.Get(), currentUICulture);
+            ViewData["NavbarView"] = navbarView;
 
             FooterView footerView = new FooterView(JsonFileManager<Footer>.Get(), currentUICulture);
             ViewData["FooterView"] = footerView;
@@ -93,6 +93,7 @@ namespace portfolioASP.Areas.View.Controllers
 
             return RedirectToAction("Index");
         }
+
         public IActionResult ChangeLanguage(string lang)
         {
             if (!string.IsNullOrEmpty(lang))

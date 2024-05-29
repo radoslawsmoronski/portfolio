@@ -1,4 +1,4 @@
-# Portfolio project
+﻿# Portfolio project
 
 Dynamic portfolio website built using .NET technology, with the frontend powered by Bootstrap. PostgreSQL database is managed through Entity Framework, while some data is stored in JSON files.
 

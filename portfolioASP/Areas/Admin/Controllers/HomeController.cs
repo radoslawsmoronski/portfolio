@@ -90,6 +90,7 @@ namespace portfolioASP.Areas.Admin.Controllers
             TempData["success"] = _localizer["Logout"].Value;
             return RedirectToAction("Index", new { area = "View" });
         }
+
         public IActionResult ChangeLanguage(string lang)
         {
             if (!string.IsNullOrEmpty(lang))

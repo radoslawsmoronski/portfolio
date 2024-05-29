@@ -5,23 +5,23 @@ namespace portfolio.Models.AboutMe
 {
     public class AboutMeView
     {
-        public string? Title { get; set; }
-        public string? Description { get; set; }
+        public string? Header { get; set; }
+        public string? Content { get; set; }
         public string? ImageUrl { get; set; }
 
-        public AboutMeView(AboutMe aboutMe, string languageCode)
+        public AboutMeView(AboutMe aboutMe, string langCode)
         {
             ImageUrl = aboutMe.ImageUrl;
 
-            if (languageCode == "pl")
+            if (langCode == "pl")
             {
-                Description = aboutMe.DescriptionPL;
-                Title = aboutMe.TitlePL;
+                Content = aboutMe.ContentPL;
+                Header = aboutMe.HeaderPL;
             }
             else
             {
-                Description = aboutMe.DescriptionENG;
-                Title = aboutMe.TitleENG;
+                Content = aboutMe.ContentENG;
+                Header = aboutMe.HeaderENG;
             }
         }
     }

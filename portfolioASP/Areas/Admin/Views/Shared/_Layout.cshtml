@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@Localizer["WebsiteTitle"]</title>
-    <link rel="icon" href="~/images/websiteTitle/admin-default-icon.png">
+    <link rel="icon" href="~/images/websiteTab/admin-default-icon.png">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css//admin/admin.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/portfolioASP.styles.css" asp-append-version="true" />
@@ -34,7 +34,7 @@
                             <a asp-area="Admin" asp-controller="Skills" asp-action="Index" class="nav-link">@Localizer["Skills"]</a>
                         </li>
                         <li class="nav-item">
-                            <a asp-area="Admin" asp-controller="Projects" asp-action="Index" class="nav-link">@Localizer["Portfolio"]</a>
+                            <a asp-area="Admin" asp-controller="Projects" asp-action="Index" class="nav-link">@Localizer["Projects"]</a>
                         </li>
                         <li class="nav-item">
                             <a asp-area="Admin" asp-controller="Contact" asp-action="Index" class="nav-link">@Localizer["Contact"]</a>
@@ -72,6 +72,5 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
-
 </body>
 </html>

@@ -9,18 +9,18 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
 
     @{
-        WebsiteTitleView? websiteTitleView = ViewData["WebsiteTitleView"] as WebsiteTitleView;
+        WebsiteTabView? websiteTabView = ViewData["WebsiteTabView"] as WebsiteTabView;
 
-        @if (websiteTitleView != null)
+        @if (websiteTabView != null)
         {
-            <title>@websiteTitleView.Title</title>
-            if (websiteTitleView.ImageUrl != null)
+            <title>@websiteTabView.Title</title>
+            if (websiteTabView.ImageUrl != null)
             {
-                <link rel="icon" href="@websiteTitleView.ImageUrl">
+                <link rel="icon" href="@websiteTabView.ImageUrl">
             }
             else
             {
-                <link rel="icon" href="~/images/websiteTitle/website-default-icon.png">
+                <link rel="icon" href="~/images/websiteTab/website-default-icon.png">
             }
         }
     }
@@ -33,20 +33,20 @@
                 <div style="display:flex; align-items:center;">
                     <a class="navbar-brand text-white" style="font-size: 10px; display:flex; align-items:center;" href="#">
                         @{
-                            NavbarLogoView? navbarLogoView = ViewData["NavbarLogoView"] as NavbarLogoView;
+                            NavbarView? navbarView = ViewData["NavbarView"] as NavbarView;
 
-                            @if (navbarLogoView != null)
+                            @if (navbarView != null)
                             {
-                                @if (navbarLogoView.ImageUrl != null)
+                                @if (navbarView.ImageUrl != null)
                                 {
-                                    <img src="@navbarLogoView.ImageUrl" style="height: 40px; margin-right: 10px;" alt="Logo" />
+                                    <img src="@navbarView.ImageUrl" style="height: 40px; margin-right: 10px;" alt="Logo" />
                                 }
 
                                 <div class="logo-text">
                                     @{
-                                        if (navbarLogoView.Title != null)
+                                        if (navbarView.Header != null)
                                         {
-                                            string title = navbarLogoView.Title.Replace("\r\n", "<br />");
+                                            string title = navbarView.Header.Replace("\r\n", "<br />");
                                             @Html.Raw(title)
                                         }
                                     }
@@ -72,7 +72,7 @@
                             <a class="nav-link" href="#skills">@Localizer["Skills"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#portfolio">@Localizer["Projects"]</a>
+                            <a class="nav-link" href="#projects">@Localizer["Projects"]</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#contact">@Localizer["Contact"]</a>
