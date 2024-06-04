@@ -15,6 +15,7 @@ using System.Net;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
+using Microsoft.AspNetCore.Hosting;
 
 namespace portfolioASP
 {
@@ -45,6 +46,7 @@ namespace portfolioASP
                 options.SupportedUICultures = supportedCultures;
 
                 options.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider());
+
             });
 
             builder.Services.AddDbContext<ApplicationDbContext>
@@ -58,6 +60,13 @@ namespace portfolioASP
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
+            });
+
+            builder.Services.AddScoped<IJsonFileManager>(serviceProvider =>
+            {
+                var webHostEnvironment = serviceProvider.GetRequiredService<IWebHostEnvironment>();
+                var jsonFileManager = new JsonFileManager(webHostEnvironment.WebRootPath);
+                return jsonFileManager;
             });
 
 
