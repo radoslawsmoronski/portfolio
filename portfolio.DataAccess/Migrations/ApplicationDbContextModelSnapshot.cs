@@ -22,6 +22,35 @@ namespace portfolio.DataAccess.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("portfolio.Models.ConfigureData.ConfigureData", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("JSON")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ConfigureDatas");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            JSON = "{\"Password\":\"$2a$11$8WGPCFiXVzavlpu6KaqakO738nLjnUrvioepPN0VwnQ3SD6SZZKUS\"}"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            JSON = "{\"Email\":\"portfolio.asp.test.email@gmail.com\",\"Password\":\"lexmlhvkvyjognkf\",\"SmtpServer\":\"smtp.gmail.com\",\"SmtpPort\":587,\"Encryption\":true}"
+                        });
+                });
+
             modelBuilder.Entity("portfolio.Models.Contact", b =>
                 {
                     b.Property<int>("Id")

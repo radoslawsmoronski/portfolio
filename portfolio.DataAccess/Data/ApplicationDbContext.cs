@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using portfolio.Models;
+using portfolio.Models.ConfigureData;
 using portfolio.Models.Email;
 using portfolio.Models.Project;
 using portfolio.Models.Skill;
+using portfolio.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace portfolio.DataAccess.Data
 {
@@ -17,6 +19,7 @@ namespace portfolio.DataAccess.Data
         public DbSet<Project> Projects { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<EmailMessage> EmailMessages { get; set; }
+        public DbSet<ConfigureData> ConfigureDatas { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -46,6 +49,26 @@ namespace portfolio.DataAccess.Data
                 new EmailMessage { Id = 1, Email = "test@email.com", Name = "John", Subject = "Test Subject", Content = description},
                 new EmailMessage { Id = 2, Email = "test2@email.com", Name = "Mark", Subject = "Test Subject 2", Content = description },
                 new EmailMessage { Id = 3, Email = "test3@email.com", Name = "Jeniffer", Subject = "Test Subject 3", Content = description }
+                );
+
+
+            AdminLogin adminLogin = new AdminLogin
+            {
+                Password = "$2a$11$8WGPCFiXVzavlpu6KaqakO738nLjnUrvioepPN0VwnQ3SD6SZZKUS"
+            };
+
+            EmailSettings emailSettings = new EmailSettings
+            {
+                Email = "portfolio.asp.test.email@gmail.com",
+                Password = "lexmlhvkvyjognkf",
+                SmtpServer = "smtp.gmail.com",
+                SmtpPort = 587,
+                Encryption = true
+            };
+
+            modelBuilder.Entity<ConfigureData>().HasData(
+                new ConfigureData { Id = 1, JSON = adminLogin.GetJson()},
+                new ConfigureData { Id = 2, JSON = emailSettings.GetJson()}
                 );
         }
 

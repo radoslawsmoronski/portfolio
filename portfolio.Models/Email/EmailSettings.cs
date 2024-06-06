@@ -1,10 +1,12 @@
 ﻿using System.Net.Mail;
 using System.Net;
 using System.ComponentModel.DataAnnotations;
+using portfolio.Models.ConfigureData;
+using Newtonsoft.Json;
 
 namespace portfolio.Models.Email
 {
-    public class EmailSettings
+    public class EmailSettings : IConfigureDataClass
     {
         [Required]
         public string Email { get; set; }
@@ -16,6 +18,11 @@ namespace portfolio.Models.Email
         public int SmtpPort { get; set;}
         [Required]
         public bool Encryption  { get; set; }
+
+        public string GetJson()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
 
         public bool CheckConnection()
         {
