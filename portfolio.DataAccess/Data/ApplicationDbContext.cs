@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using portfolio.Models;
 using portfolio.Models.ConfigureData;
 using portfolio.Models.Email;
 using portfolio.Models.Project;
 using portfolio.Models.Skill;
-using portfolio.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace portfolio.DataAccess.Data
@@ -50,7 +50,6 @@ namespace portfolio.DataAccess.Data
                 new EmailMessage { Id = 2, Email = "test2@email.com", Name = "Mark", Subject = "Test Subject 2", Content = description },
                 new EmailMessage { Id = 3, Email = "test3@email.com", Name = "Jeniffer", Subject = "Test Subject 3", Content = description }
                 );
-
 
             AdminLogin adminLogin = new AdminLogin
             {

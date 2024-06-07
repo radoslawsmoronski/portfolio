@@ -32,14 +32,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\portfolio.DataAccess\portfolio.DataAccess.csproj" />
-    <ProjectReference Include="..\portfolio.Models\portfolio.Models.csproj" />
-    <ProjectReference Include="..\portfolio.Utility\portfolio.Utility.csproj" />
+    <Folder Include="wwwroot\images\navbar\" />
+    <Folder Include="wwwroot\json\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\images\navbar\" />
-    <Folder Include="wwwroot\json\" />
+    <ProjectReference Include="..\portfolio.DataAccess\portfolio.DataAccess.csproj" />
+    <ProjectReference Include="..\portfolio.Models\portfolio.Models.csproj" />
+    <ProjectReference Include="..\portfolio.Utility\portfolio.Utility.csproj" />
   </ItemGroup>
 
 </Project>
