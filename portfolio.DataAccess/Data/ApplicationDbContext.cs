@@ -4,6 +4,7 @@ using portfolio.Models.ConfigureData;
 using portfolio.Models.Email;
 using portfolio.Models.Project;
 using portfolio.Models.Skill;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace portfolio.DataAccess.Data
@@ -20,6 +21,48 @@ namespace portfolio.DataAccess.Data
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<EmailMessage> EmailMessages { get; set; }
         public DbSet<ConfigureData> ConfigureDatas { get; set; }
+
+        public int GetUnreadEmailMessagesAmount()
+        {
+            int i = 0;
+
+            foreach (EmailMessage message in EmailMessages)
+            {
+                if (message.IsReaded == false)
+                {
+                    i++;
+                }
+            }
+
+            return i;
+        }
+
+        public List<TView> GetListView<T, TView>(Func<T, TView> transform) where T : class
+        {
+            List<TView> viewList = new List<TView>();
+            List<T> objList = GetDbSet<T>().ToList();
+
+            foreach (T obj in objList)
+            {
+                TView viewObj = transform(obj);
+                viewList.Add(viewObj);
+            }
+
+            return viewList;
+        }
+
+        private DbSet<T> GetDbSet<T>() where T : class
+        {
+            var property = typeof(ApplicationDbContext).GetProperties()
+                .FirstOrDefault(p => p.PropertyType == typeof(DbSet<T>));
+
+            if (property != null)
+            {
+                return (DbSet<T>)property.GetValue(this)!;
+            }
+
+            throw new InvalidOperationException($"DbSet<{typeof(T).Name}> not found in ApplicationContext.");
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

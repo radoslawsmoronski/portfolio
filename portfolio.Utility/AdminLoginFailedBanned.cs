@@ -35,6 +35,7 @@ namespace portfolio.Utility
                 BanUser(ip);
             }
         }
+
         public void RemoveFailedLoginAttempt(string ip)
         {
             var attempts = Cache.GetOrCreate("FailedLoginAttempts", entry => new Dictionary<string, int>());
