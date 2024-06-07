@@ -3,11 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
+<<<<<<< HEAD
+=======
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "portfolioASP", "portfolioASP\portfolioASP.csproj", "{DB09F268-93CE-4498-91CF-77F835FFB469}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "portfolio.DataAccess", "portfolio.DataAccess\portfolio.DataAccess.csproj", "{3686E250-FE86-4CB3-B74B-ED7AC5EDCDE9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "portfolio.Utility", "portfolio.Utility\portfolio.Utility.csproj", "{FC77C746-D6F5-46F7-A408-CFC276D23248}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "portfolio.Models", "portfolio.Models\portfolio.Models.csproj", "{2AB2D74B-BDFC-4B0F-95ED-2E3CB6A24142}"
+EndProject
+>>>>>>> features
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C1A809F8-9982-422E-9414-5E6EC563BFAD}"
 	ProjectSection(SolutionItems) = preProject
 		LICENSE.txt = LICENSE.txt
 		README.md = README.md
 	EndProjectSection
+<<<<<<< HEAD
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "portfolio.Models", "portfolio.Models\portfolio.Models.csproj", "{DD2D715D-6D17-4B31-89FE-B7ECF1893652}"
 EndProject
@@ -16,6 +28,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "portfolio.Utility", "portfolio.Utility\portfolio.Utility.csproj", "{692BE910-622C-4F9B-BC71-E4C9FDFD5A71}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "portfolioASP", "portfolioASP\portfolioASP.csproj", "{2DBAB8CB-DAFA-499F-A072-FF7FD15F5ADC}"
+=======
+>>>>>>> features
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +37,7 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+<<<<<<< HEAD
 		{DD2D715D-6D17-4B31-89FE-B7ECF1893652}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DD2D715D-6D17-4B31-89FE-B7ECF1893652}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD2D715D-6D17-4B31-89FE-B7ECF1893652}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +54,24 @@ Global
 		{2DBAB8CB-DAFA-499F-A072-FF7FD15F5ADC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DBAB8CB-DAFA-499F-A072-FF7FD15F5ADC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2DBAB8CB-DAFA-499F-A072-FF7FD15F5ADC}.Release|Any CPU.Build.0 = Release|Any CPU
+=======
+		{DB09F268-93CE-4498-91CF-77F835FFB469}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB09F268-93CE-4498-91CF-77F835FFB469}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB09F268-93CE-4498-91CF-77F835FFB469}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB09F268-93CE-4498-91CF-77F835FFB469}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3686E250-FE86-4CB3-B74B-ED7AC5EDCDE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3686E250-FE86-4CB3-B74B-ED7AC5EDCDE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3686E250-FE86-4CB3-B74B-ED7AC5EDCDE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3686E250-FE86-4CB3-B74B-ED7AC5EDCDE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC77C746-D6F5-46F7-A408-CFC276D23248}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC77C746-D6F5-46F7-A408-CFC276D23248}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC77C746-D6F5-46F7-A408-CFC276D23248}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC77C746-D6F5-46F7-A408-CFC276D23248}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AB2D74B-BDFC-4B0F-95ED-2E3CB6A24142}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AB2D74B-BDFC-4B0F-95ED-2E3CB6A24142}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AB2D74B-BDFC-4B0F-95ED-2E3CB6A24142}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AB2D74B-BDFC-4B0F-95ED-2E3CB6A24142}.Release|Any CPU.Build.0 = Release|Any CPU
+>>>>>>> features
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

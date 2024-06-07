@@ -70,7 +70,6 @@ namespace portfolioASP.Areas.Admin.Controllers
 
             EmailMessage? emailMessage = _dbContext.EmailMessages.Find(id);
 
-
             if (emailMessage == null)
             {
                 return Json(new { success = false, message = _localizer["IdNotFound"].Value });
