@@ -19,7 +19,7 @@ The website features an admin panel accessible at /admin, requiring a password f
 - Additionally, there's a "Contacts" section for editing icons and content.
 
 # Website configuration
-Configuration is done through the appsettings file and ApplicationDbContext in portfolio.DataAccess/Data.
+Configuration is done through the appsettings file and ApplicationDbContext in portfolio.DataAccess/Data. After the configuration you have to do migration.
 
 
 ### appsettings
@@ -28,7 +28,7 @@ The appsettings.json file is used to configure the database connection.
 
 ```json
   "ConnectionStrings": {
-    "DefaultConnection": "Host=host;Database=database;Port=port;Username=username;Password=password"
+    "DefaultConnection": "Host=;Database=;Port=;Username=;Password="
   }
 ```
 
@@ -38,24 +38,24 @@ The appsettings.json file is used to configure the database connection.
 In the ApplicationDbContext file, you can change the default admin panel access password and SMTP email settings.
 
 ```c#
-AdminLogin adminLogin = new AdminLogin
-{
-    Password = "$2a$11$8WGPCFiXVzavlpu6KaqakO738nLjnUrvioepPN0VwnQ3SD6SZZKUS" // (NCRYPT) Default password -> admin
-};
+    AdminLogin adminLogin = new AdminLogin
+    {
+        Password = "$2a$11$8WGPCFiXVzavlpu6KaqakO738nLjnUrvioepPN0VwnQ3SD6SZZKUS" // (NCRYPT) default password: admin
+    };
 
-EmailSettings emailSettings = new EmailSettings
-{
-    Email = "email",
-    Password = "password",
-    SmtpServer = "smtp server"",
-    SmtpPort = 000,
-    Encryption = false
-};
+    EmailSettings emailSettings = new EmailSettings
+    {
+        Email = "",
+        Password = "",
+        SmtpServer = "",
+        SmtpPort = 0,
+        Encryption = false
+    };
 
-modelBuilder.Entity<ConfigureData>().HasData(
-    new ConfigureData { Id = 1, JSON = adminLogin.GetJson()},
-    new ConfigureData { Id = 2, JSON = emailSettings.GetJson()}
-);
+    modelBuilder.Entity<ConfigureData>().HasData(
+        new ConfigureData { Id = 1, JSON = adminLogin.GetJson()},
+        new ConfigureData { Id = 2, JSON = emailSettings.GetJson()}
+    );
 ```
 
 ## Author

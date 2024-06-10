@@ -101,11 +101,11 @@ namespace portfolio.DataAccess.Data
 
             EmailSettings emailSettings = new EmailSettings
             {
-                Email = "portfolio.asp.test.email@gmail.com",
-                Password = "lexmlhvkvyjognkf",
-                SmtpServer = "smtp.gmail.com",
-                SmtpPort = 587,
-                Encryption = true
+                Email = "",
+                Password = "",
+                SmtpServer = "",
+                SmtpPort = 0,
+                Encryption = false
             };
 
             modelBuilder.Entity<ConfigureData>().HasData(
