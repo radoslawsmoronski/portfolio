@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity.UI.Services;
+﻿using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using portfolio.DataAccess.Data;
@@ -8,12 +8,7 @@ using portfolio.Models;
 using portfolio.Models.Email;
 using portfolio.Utility;
 using portfolio.Utility.Email;
-using System.Configuration;
-using System.Net;
-using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.AspNetCore.Localization;
 using System.Globalization;
-using Microsoft.AspNetCore.Hosting;
 
 namespace portfolioASP
 {
@@ -88,8 +83,13 @@ namespace portfolioASP
             app.UseAuthentication();
             app.UseAuthorization();
 
-            var localizationOptions = app.Services.GetService<IOptions<RequestLocalizationOptions>>().Value;
-            app.UseRequestLocalization(localizationOptions);
+            var localizationOptions = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
+
+            if (localizationOptions != null)
+            {
+                var localizationOptionsValue = localizationOptions.Value;
+                app.UseRequestLocalization(localizationOptionsValue);
+            }
 
             app.UseSession();
 

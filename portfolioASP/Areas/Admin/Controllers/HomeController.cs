@@ -1,16 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using portfolio.Models;
-using portfolio.Models.Email;
-using portfolio.Models.ViewModels;
-using portfolio.Utility;
+﻿using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Localization;
-using Microsoft.AspNetCore.Localization;
-using System.Globalization;
 using portfolio.DataAccess.Data;
+using portfolio.Models;
 using portfolio.Models.ConfigureData;
-using Newtonsoft.Json;
-using System;
+using portfolio.Utility;
+using System.Globalization;
 
 namespace portfolioASP.Areas.Admin.Controllers
 {
@@ -63,9 +58,9 @@ namespace portfolioASP.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Login(AdminLogin adminLogin)
         {
-            var ipAddress = HttpContext.Connection.RemoteIpAddress.ToString();
+            var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
 
-            if(_adminLoginFailedBanned.IsUserBanned(ipAddress))
+            if (string.IsNullOrEmpty(ipAddress) || _adminLoginFailedBanned.IsUserBanned(ipAddress))
             {
                 TempData["error"] = _localizer["ToMuchFailedLoginAttempt"].Value;
                 return View();
