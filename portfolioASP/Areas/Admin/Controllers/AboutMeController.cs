@@ -71,6 +71,35 @@ namespace portfolioASP.Areas.Admin.Controllers
 
             return View(aboutMe);
         }
+        public IActionResult DeleteImage()
+        {
+            AboutMe obj = _jsonFileManager.Get<AboutMe>();
+
+            DeleteImageFile(obj.ImageUrl);
+
+            obj.ImageUrl = null;
+
+            _jsonFileManager.Save<AboutMe>(obj);
+
+            TempData["success"] = _localizer["ImageWasRemoved"].Value;
+            return RedirectToAction("Index");
+        }
+
+        private void DeleteImageFile(string? imgUrl)
+        {
+            string wwwRootPath = _webHostEnvironment.WebRootPath;
+
+            if (imgUrl != null)
+            {
+                var oldImagePath =
+                    Path.Combine(wwwRootPath, imgUrl.TrimStart('\\'));
+
+                if (System.IO.File.Exists(oldImagePath))
+                {
+                    System.IO.File.Delete(oldImagePath);
+                }
+            }
+        }
 
     }
 }
