@@ -2,7 +2,30 @@
 
 Dynamic portfolio website built using .NET technology, with the frontend powered by Bootstrap. PostgreSQL database is managed through Entity Framework, while some data is stored in JSON files.
 
-Demo: https://rsmoronski.azurewebsites.net/
+Demo: soon
+Demo admin panel: soon
+
+# Technologies
+
+- **Programming Languages:**
+  - C#
+  - HTML
+  - CSS
+  - JavaScript
+
+- **Frameworks:**
+  - ASP.NET Core MVC 2.2.5
+  - Entity Framework 8.0.6
+  - Newtonsoft.Json 13.0.3
+  - BCrypt.Net-Next 4.0.3
+
+- **Database:**
+  - PostgreSQL 13
+
+
+- **Other Libraries:**
+  - SweetAlert2
+  - Toastr
 
 # Dynamic explanation
 The website features an admin panel accessible at /admin, requiring a password for access. Within the admin panel, various aspects of the site can be managed, including:
@@ -28,7 +51,7 @@ The appsettings.json file is used to configure the database connection.
 
 ```json
   "ConnectionStrings": {
-    "DefaultConnection": "Host=;Database=;Port=;Username=;Password="
+    "DefaultConnection": "Host=;Database=;Port=;Username=;Password=;"
   }
 ```
 
@@ -40,7 +63,7 @@ In the ApplicationDbContext file, you can change the default admin panel access 
 ```c#
     AdminLogin adminLogin = new AdminLogin
     {
-        Password = "$2a$11$8WGPCFiXVzavlpu6KaqakO738nLjnUrvioepPN0VwnQ3SD6SZZKUS" // (NCRYPT) default password: admin
+        Password = "$2a$11$8WGPCFiXVzavlpu6KaqakO738nLjnUrvioepPN0VwnQ3SD6SZZKUS" // (BCRYPT) default password: admin
     };
 
     EmailSettings emailSettings = new EmailSettings
@@ -61,7 +84,7 @@ In the ApplicationDbContext file, you can change the default admin panel access 
 ## Author
 
 - Radosław Smoroński
-- Contact: radoslaw.smoronski@gmail.com
+- Contact: email@rsmoronski.pl
 
 ## License
 
