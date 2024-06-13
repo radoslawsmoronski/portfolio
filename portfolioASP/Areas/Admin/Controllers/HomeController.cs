@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using portfolio.DataAccess.Repository.IRepository;
-using portfolio.Models;
-using portfolio.Models.Email;
-using portfolio.Models.ViewModels;
-using portfolio.Utility;
+﻿using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Localization;
-using Microsoft.AspNetCore.Localization;
+using portfolio.DataAccess.Data;
+using portfolio.Models;
+using portfolio.Models.ConfigureData;
+using portfolio.Utility;
 using System.Globalization;
 
 namespace portfolioASP.Areas.Admin.Controllers
@@ -14,19 +12,21 @@ namespace portfolioASP.Areas.Admin.Controllers
     [Area("Admin")]
     public class HomeController : Controller
     {
-        private readonly AdminLogin _adminLogin;
+        private readonly ApplicationDbContext _dbContext;
         private readonly IHtmlLocalizer<HomeController> _localizer;
+        private readonly IAdminLoginFailedBanned _adminLoginFailedBanned;
 
-        public HomeController(IOptionsSnapshot<AdminLogin> adminLogin, IHtmlLocalizer<HomeController> localizer)
+        public HomeController(ApplicationDbContext dbContext,
+            IHtmlLocalizer<HomeController> localizer,
+            IAdminLoginFailedBanned adminLoginFailedBanned)
         {
-            _adminLogin = adminLogin.Value;
+            _dbContext = dbContext;
             _localizer = localizer;
+            _adminLoginFailedBanned = adminLoginFailedBanned;
         }
 
         public IActionResult Index()
         {
-            HttpContext.Session.SetString("IsActiveSession", "true");
-
             var isActiveSession = HttpContext.Session.GetString("IsActiveSession");
 
             if (isActiveSession == "true")
@@ -56,9 +56,9 @@ namespace portfolioASP.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Login(AdminLogin adminLogin)
         {
-            var ipAddress = HttpContext.Connection.RemoteIpAddress.ToString();
+            var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
 
-            if(AdminLoginFailedBanned.IsUserBanned(ipAddress))
+            if (string.IsNullOrEmpty(ipAddress) || _adminLoginFailedBanned.IsUserBanned(ipAddress))
             {
                 TempData["error"] = _localizer["ToMuchFailedLoginAttempt"].Value;
                 return View();
@@ -66,9 +66,17 @@ namespace portfolioASP.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                if (BCrypt.Net.BCrypt.Verify(adminLogin.Password, _adminLogin.Password))
+                ConfigureData? configureData = _dbContext.ConfigureDatas.Find(1);
+                AdminLogin? adminLoginDB = null;
+
+                if (configureData != null)
                 {
-                    AdminLoginFailedBanned.RemoveFailderLoginAttempts(ipAddress);
+                    adminLoginDB = configureData.Convert<AdminLogin>();
+                }
+                
+                if (adminLoginDB != null && BCrypt.Net.BCrypt.Verify(adminLogin.Password, adminLoginDB.Password))
+                {
+                    _adminLoginFailedBanned.RemoveFailedLoginAttempt(ipAddress);
                     HttpContext.Session.SetString("IsActiveSession", "true");
                     TempData["success"] = _localizer["SuccessfullyLoggedIn"].Value;
                     return View("Index");
@@ -76,9 +84,8 @@ namespace portfolioASP.Areas.Admin.Controllers
                 }
             }
 
-            AdminLoginFailedBanned.AddFailedLoginAttempts(ipAddress);
+            _adminLoginFailedBanned.AddFailedLoginAttempt(ipAddress);
 
-            Task.Delay(1000).Wait();
             TempData["error"] = _localizer["PasswordIsNotCorrect"].Value;
             return View();
         }

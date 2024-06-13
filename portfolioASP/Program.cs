@@ -1,19 +1,13 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity.UI.Services;
+﻿using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using portfolio.DataAccess.Data;
 using portfolio.DataAccess.Json;
-using portfolio.DataAccess.Repository;
-using portfolio.DataAccess.Repository.IRepository;
 using portfolio.Models;
 using portfolio.Models.Email;
 using portfolio.Utility;
 using portfolio.Utility.Email;
-using System.Configuration;
-using System.Net;
-using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 
 namespace portfolioASP
@@ -49,15 +43,22 @@ namespace portfolioASP
 
             builder.Services.AddDbContext<ApplicationDbContext>
                 (options=> options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
             builder.Services.Configure<AdminLogin>(builder.Configuration.GetSection("AdminLogin"));
             builder.Services.AddTransient<IEmailService, EmailService>();
+            builder.Services.AddScoped<IAdminLoginFailedBanned, AdminLoginFailedBanned>();
             builder.Services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
+            });
+
+            builder.Services.AddScoped<IJsonFileManager>(serviceProvider =>
+            {
+                var webHostEnvironment = serviceProvider.GetRequiredService<IWebHostEnvironment>();
+                var jsonFileManager = new JsonFileManager(webHostEnvironment.WebRootPath);
+                return jsonFileManager;
             });
 
 
@@ -81,8 +82,13 @@ namespace portfolioASP
             app.UseAuthentication();
             app.UseAuthorization();
 
-            var localizationOptions = app.Services.GetService<IOptions<RequestLocalizationOptions>>().Value;
-            app.UseRequestLocalization(localizationOptions);
+            var localizationOptions = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
+
+            if (localizationOptions != null)
+            {
+                var localizationOptionsValue = localizationOptions.Value;
+                app.UseRequestLocalization(localizationOptionsValue);
+            }
 
             app.UseSession();
 

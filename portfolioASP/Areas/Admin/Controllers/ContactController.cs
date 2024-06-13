@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Mvc.Localization;
+using portfolio.DataAccess.Data;
 using portfolio.DataAccess.Json;
-using portfolio.DataAccess.Repository.IRepository;
+using portfolio.Models;
+using portfolio.Models.ConfigureData;
 using portfolio.Models.Email;
 using portfolio.Models.ViewModels;
-using portfolio.Utility;
-using Microsoft.AspNetCore.Mvc.Localization;
-using portfolio.Models;
 
 namespace portfolioASP.Areas.Admin.Controllers
 {
@@ -14,20 +13,23 @@ namespace portfolioASP.Areas.Admin.Controllers
     [SessionAuthorization]
     public class ContactController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly EmailSettings _emailSettings;
         private readonly IHtmlLocalizer<ContactController> _localizer;
+        private readonly IJsonFileManager _jsonFileManager;
+        private readonly ApplicationDbContext _dbContext;
 
-        public ContactController(IUnitOfWork unitOfWork, IOptions<EmailSettings> emailSettings, IHtmlLocalizer<ContactController> localizer)
+        public ContactController(
+            IHtmlLocalizer<ContactController> localizer,
+            IJsonFileManager jsonFileManager,
+            ApplicationDbContext dbContext)
         {
-            _unitOfWork = unitOfWork;
-            _emailSettings = emailSettings.Value;
             _localizer = localizer;
+            _jsonFileManager = jsonFileManager;
+            _dbContext = dbContext;
         }
 
         public IActionResult Index()
         {
-            List<EmailMessage>? emailMessages = _unitOfWork.EmailMessageRepository.GetAll().ToList();
+            List<EmailMessage>? emailMessages = _dbContext.EmailMessages.ToList();
 
             if (emailMessages == null) return NotFound();
 
@@ -36,7 +38,7 @@ namespace portfolioASP.Areas.Admin.Controllers
             var viewModel = new AdminEmailsViewModel
             {
                 EmailMessages = emailMessages,
-                UnreadEmailMessages = _unitOfWork.EmailMessageRepository.GetUnreadAmount()
+                UnreadEmailMessages = _dbContext.GetUnreadEmailMessagesAmount()
             };
 
             return View(viewModel);
@@ -44,14 +46,14 @@ namespace portfolioASP.Areas.Admin.Controllers
 
         public IActionResult Details(int? id)
         {
-            EmailMessage? emailMessage = _unitOfWork.EmailMessageRepository.Get(u => u.Id == id);
+            EmailMessage? emailMessage = _dbContext.EmailMessages.Find(id);
 
             if (emailMessage == null) return NotFound();
 
             emailMessage.IsReaded = true;
 
-            _unitOfWork.EmailMessageRepository.Update(emailMessage);
-            _unitOfWork.Save();
+            _dbContext.EmailMessages.Update(emailMessage);
+            _dbContext.SaveChanges();
 
             return View(emailMessage);
         }
@@ -64,15 +66,15 @@ namespace portfolioASP.Areas.Admin.Controllers
                 return Json(new { success = false, message = _localizer["IdNotProvided"].Value });
             }
 
-            EmailMessage? emailMessage = _unitOfWork.EmailMessageRepository.Get(u => u.Id == id);
+            EmailMessage? emailMessage = _dbContext.EmailMessages.Find(id);
 
             if (emailMessage == null)
             {
                 return Json(new { success = false, message = _localizer["IdNotFound"].Value });
             }
 
-            _unitOfWork.EmailMessageRepository.Remove(emailMessage);
-            _unitOfWork.Save();
+            _dbContext.EmailMessages.Remove(emailMessage);
+            _dbContext.SaveChanges();
             return Json(new { success = true, message = _localizer["MessageHasBeenDeleted"].Value });
         }
 
@@ -80,52 +82,97 @@ namespace portfolioASP.Areas.Admin.Controllers
 
         public IActionResult EmailConfigure()
         {
-            var viewModel = new AdminEmailsEmailConfigureDetailsPageViewModel
+            ConfigureData? configureData = _dbContext.ConfigureDatas.Find(2);
+            EmailSettings? emailSettingsDB = null;
+
+            if (configureData != null)
             {
-                EmailMessageContent = JsonFileManager<AutoEmailMessageContent>.Get(),
-                EmailSettings = _emailSettings
-            };
+                emailSettingsDB = configureData.Convert<EmailSettings>();
+            }
 
-            viewModel.EmailSettings.Password = null;
+            if(emailSettingsDB != null)
+            {
+                var viewModel = new AdminEmailsEmailConfigureDetailsPageViewModel
+                {
+                    EmailMessageContent = _jsonFileManager.Get<AutoEmailMessageContent>(),
+                    EmailSettings = emailSettingsDB
+                };
 
-            return View("EmailConfigure/Details", viewModel);
+                viewModel.EmailSettings.Password = null;
+
+                return View("EmailConfigure/Details", viewModel);
+            }
+
+            TempData["error"] = _localizer["EmailSettingsError"].Value; ;
+            return RedirectToAction("Index");
         }
 
         public IActionResult EmailEdit()
         {
-            EmailSettings emailSettings = _emailSettings;
-            emailSettings.Password = null;
+            ConfigureData? configureData = _dbContext.ConfigureDatas.Find(2);
+            EmailSettings? emailSettingsDB = null;
 
-            return View("EmailConfigure/EmailEdit", emailSettings);
+            if (configureData != null)
+            {
+                emailSettingsDB = configureData.Convert<EmailSettings>();
+            }
+
+            if (emailSettingsDB != null)
+            {
+                EmailSettings emailSettingsObj = emailSettingsDB;
+                emailSettingsObj.Password = null;
+
+                return View("EmailConfigure/EmailEdit", emailSettingsObj);
+            }
+
+            TempData["error"] = _localizer["EmailSettingsError"].Value; ;
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
         public IActionResult EmailEdit(EmailSettings emailSettings)
         {
+            ConfigureData? configureData = _dbContext.ConfigureDatas.Find(2);
+            EmailSettings? emailSettingsDB = null;
 
-            try
+            if (configureData != null)
             {
-                emailSettings.CheckConnection();
-
-                EditAppSettings.AddOrUpdateAppSetting<String>("EmailSettings:Password", emailSettings.Password);
-
-                TempData["success"] = _localizer["EmailSettingsHasBeenEdited"].Value;
-                return RedirectToAction("EmailConfigure");
+                emailSettingsDB = configureData.Convert<EmailSettings>();
             }
-            catch (Exception ex)
+
+            if (emailSettingsDB != null && configureData != null)
             {
-                TempData["error"] = ex.Message;
+                try
+                {
+                    emailSettings.CheckConnection();
 
-                EmailSettings emailSettingsObj = _emailSettings;
-                emailSettingsObj.Password = null;
+                    emailSettingsDB = emailSettings;
+                    configureData.JSON = emailSettingsDB.GetJson();
+                    _dbContext.SaveChanges();
 
-                return View("EmailConfigure/EmailEdit", emailSettingsObj);
+                    TempData["success"] = _localizer["EmailSettingsHasBeenEdited"].Value;
+                    return RedirectToAction("EmailConfigure");
+                }
+                catch (Exception ex)
+                {
+                    TempData["error"] = ex.Message;
+
+                    EmailSettings emailSettingsObj = emailSettingsDB;
+                    emailSettingsObj.Password = null;
+
+                    return View("EmailConfigure/EmailEdit", emailSettingsObj);
+
+                }
             }
+
+
+            TempData["error"] = _localizer["EmailSettingsError"].Value; ;
+            return RedirectToAction("Index");
         }
 
         public IActionResult MessageEdit()
         {
-            AutoEmailMessageContent? message = JsonFileManager<AutoEmailMessageContent>.Get();
+            AutoEmailMessageContent? message = _jsonFileManager.Get<AutoEmailMessageContent>();
 
             if (message == null) return NotFound();
 
@@ -138,7 +185,7 @@ namespace portfolioASP.Areas.Admin.Controllers
 
             try
             {
-                JsonFileManager<AutoEmailMessageContent>.Save(message);
+                _jsonFileManager.Save<AutoEmailMessageContent>(message);
 
                 TempData["success"] = _localizer["AutoEmailMessageHasBeenEdited"].Value;
                 return RedirectToAction("EmailConfigure");
@@ -155,7 +202,7 @@ namespace portfolioASP.Areas.Admin.Controllers
 
         public IActionResult ContactsIndex()
         {
-            List<Contact> objContactsList = _unitOfWork.ContactRepository.GetAll().ToList();
+            List<Contact> objContactsList = _dbContext.Contacts.ToList();
             return View("Contacts/ContactsIndex", objContactsList);
         }
 
@@ -163,7 +210,7 @@ namespace portfolioASP.Areas.Admin.Controllers
         {
             if (id != null || id != 0)
             {
-                Contact? contactFromDb = _unitOfWork.ContactRepository.Get(u => u.Id == id);
+                Contact? contactFromDb = _dbContext.Contacts.Find(id);
 
                 if (contactFromDb == null)
                 {
@@ -188,7 +235,7 @@ namespace portfolioASP.Areas.Admin.Controllers
             }
             else
             {
-                Contact? contactFromDb = _unitOfWork.ContactRepository.Get(u => u.Id == id);
+                Contact? contactFromDb = _dbContext.Contacts.Find(id);
 
                 if (contactFromDb == null)
                 {
@@ -208,16 +255,16 @@ namespace portfolioASP.Areas.Admin.Controllers
 
                 if (contact.Id == 0)
                 {
-                    _unitOfWork.ContactRepository.Add(contact);
+                    _dbContext.Contacts.Add(contact);
                     TempData["success"] = _localizer["ContactHasBeenCreated"].Value;
                 }
                 else
                 {
-                    _unitOfWork.ContactRepository.Update(contact);
+                    _dbContext.Contacts.Update(contact);
                     TempData["success"] = _localizer["ContactHasBeenEdited"].Value;
                 }
 
-                _unitOfWork.Save();
+                _dbContext.SaveChanges();
                 return RedirectToAction("ContactsIndex");
             }
             else
@@ -234,15 +281,15 @@ namespace portfolioASP.Areas.Admin.Controllers
                 return Json(new { success = false, message = _localizer["IdNotProvided"].Value });
             }
 
-            Contact? contactFromDb = _unitOfWork.ContactRepository.Get(u => u.Id == id);
+            Contact? contactFromDb = _dbContext.Contacts.Find(id);
 
             if (contactFromDb == null)
             {
                 return Json(new { success = false, message = _localizer["IdNotFound"].Value });
             }
 
-            _unitOfWork.ContactRepository.Remove(contactFromDb);
-            _unitOfWork.Save();
+            _dbContext.Contacts.Remove(contactFromDb);
+            _dbContext.SaveChanges();
             return Json(new { success = true, message = _localizer["MessageHasBeenDeleted"].Value });
         }
     }

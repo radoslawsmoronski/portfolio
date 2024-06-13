@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace portfolio.Models
 {
     public class EditAdminLogin : AdminLogin
     {
         [Required]
-        public string NewPassword { get; set; }
+        public string NewPassword { get; set; } = "";
 
         [Compare("NewPassword")]
-        public string ConfrimNewPassword { get; set; }
+        public string ConfrimNewPassword { get; set; } = "";
     }
 }

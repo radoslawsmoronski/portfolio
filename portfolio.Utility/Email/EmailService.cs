@@ -1,41 +1,50 @@
-﻿using Microsoft.Extensions.Options;
+﻿using portfolio.DataAccess.Data;
+using portfolio.Models.ConfigureData;
 using portfolio.Models.Email;
-using portfolio.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
-using portfolio.DataAccess.Repository.IRepository;
 
 namespace portfolio.Utility.Email
 {
     public class EmailService : IEmailService
     {
-        private readonly EmailSettings _emailSettings;
+        private readonly ApplicationDbContext _dbContext;
 
-        public EmailService(IOptionsSnapshot<EmailSettings> emailSettings)
+        public EmailService(ApplicationDbContext dbContext)
         {
-            _emailSettings = emailSettings.Value;
+            _dbContext = dbContext;
         }
 
         public Task SendEmailAsync(string email, string? subject, string? content)
         {
+            ConfigureData? configureData = _dbContext.ConfigureDatas.Find(2);
+            EmailSettings? emailSettingsDB = null;
 
-            var client = new SmtpClient(_emailSettings.SmtpServer, _emailSettings.SmtpPort)
+            if (configureData != null)
             {
-                EnableSsl = _emailSettings.Encryption,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(_emailSettings.Email, _emailSettings.Password)
-            };
+                emailSettingsDB = configureData.Convert<EmailSettings>();
+            }
 
-            return client.SendMailAsync(
-                new MailMessage(from: _emailSettings.Email,
-                                to: email,
-                                subject,
-                                content));
+            if (emailSettingsDB != null)
+            {
+                var client = new SmtpClient(emailSettingsDB.SmtpServer, emailSettingsDB.SmtpPort)
+                {
+                    EnableSsl = emailSettingsDB.Encryption,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(emailSettingsDB.Email, emailSettingsDB.Password)
+                };
+
+                if(emailSettingsDB.Email != null)
+                {
+                    return client.SendMailAsync(
+                        new MailMessage(from: emailSettingsDB.Email,
+                                        to: email,
+                                        subject,
+                                        content));
+                }
+            }
+
+            throw new Exception("EmailSettins error");
 
         }
 

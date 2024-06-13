@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using portfolio.DataAccess.Data;
-using portfolio.DataAccess.Repository.IRepository;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Localization;
+using portfolio.DataAccess.Data;
 using portfolio.Models.Project;
 
 namespace portfolioASP.Areas.Admin.Controllers
@@ -11,20 +9,23 @@ namespace portfolioASP.Areas.Admin.Controllers
     [SessionAuthorization]
     public class ProjectsController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly ApplicationDbContext _dbcontext;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IHtmlLocalizer<ProjectsController> _localizer;
 
-        public ProjectsController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment, IHtmlLocalizer<ProjectsController> localizer)
+        public ProjectsController(
+            ApplicationDbContext dbcontext,
+            IWebHostEnvironment webHostEnvironment,
+            IHtmlLocalizer<ProjectsController> localizer)
         {
-            _unitOfWork = unitOfWork;
+            _dbcontext = dbcontext;
             _webHostEnvironment = webHostEnvironment;
             _localizer = localizer;
         }
 
         public IActionResult Index()
         {
-            List<Project> objProjectsList = _unitOfWork.ProjectRepository.GetAll().ToList();
+            List<Project> objProjectsList = _dbcontext.Projects.ToList();
             return View(objProjectsList);
         }
 
@@ -32,7 +33,7 @@ namespace portfolioASP.Areas.Admin.Controllers
         {
             if(id != null || id != 0)
             {
-                Project? projectFromDb = _unitOfWork.ProjectRepository.Get(u => u.Id == id);
+                Project? projectFromDb = _dbcontext.Projects.Find(id);
 
                 if(projectFromDb == null)
                 {
@@ -57,7 +58,7 @@ namespace portfolioASP.Areas.Admin.Controllers
             }
             else
             {
-                Project? projectFromDb = _unitOfWork.ProjectRepository.Get(u => u.Id == id);
+                Project? projectFromDb = _dbcontext.Projects.Find(id);
 
                 if (projectFromDb == null)
                 {
@@ -78,9 +79,9 @@ namespace portfolioASP.Areas.Admin.Controllers
                 if(file != null)
                 {
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                    string productPath = Path.Combine(wwwRootPath, @"images\projects");
+                    string productPath = Path.Combine(wwwRootPath, "images", "projects");
 
-                    if(string.IsNullOrEmpty(project.ImageUrl) == false)
+                    if (string.IsNullOrEmpty(project.ImageUrl) == false)
                     {
                         var oldImagePath = 
                             Path.Combine(wwwRootPath,project.ImageUrl.TrimStart('\\'));
@@ -96,21 +97,21 @@ namespace portfolioASP.Areas.Admin.Controllers
                         file.CopyTo(fileStream);
                     }
 
-                    project.ImageUrl = @"\images\projects\" + fileName;
+                    project.ImageUrl = Path.Combine("images", "projects", fileName);
                 }
 
                 if(project.Id == 0)
                 {
-                    _unitOfWork.ProjectRepository.Add(project);
+                    _dbcontext.Projects.Add(project);
                     TempData["success"] = _localizer["ProjectWasAdded"].Value;
                 }
                 else
                 {
+                    _dbcontext.Projects.Update(project);
                     TempData["success"] = _localizer["ProjectWasEdited"].Value;
-                    _unitOfWork.ProjectRepository.Update(project);
                 }
 
-                _unitOfWork.Save();
+                _dbcontext.SaveChanges();
                 return RedirectToAction("Index");
                 
             }
@@ -126,7 +127,7 @@ namespace portfolioASP.Areas.Admin.Controllers
                 return Json(new { success = false, message = _localizer["IdNotProvided"].Value });
             }
 
-            Project? project = _unitOfWork.ProjectRepository.Get(u => u.Id == id);
+            Project? project = _dbcontext.Projects.Find(id);
 
             if (project == null)
             {
@@ -147,8 +148,8 @@ namespace portfolioASP.Areas.Admin.Controllers
                 }
             }
 
-            _unitOfWork.ProjectRepository.Remove(project);
-            _unitOfWork.Save();
+            _dbcontext.Projects.Remove(project);
+            _dbcontext.SaveChanges();
             return Json(new { success = true, message = _localizer["ProjectWasRemoved"].Value });
         }
     }

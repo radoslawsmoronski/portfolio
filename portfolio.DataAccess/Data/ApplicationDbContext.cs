@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using portfolio.Models;
+using portfolio.Models.ConfigureData;
 using portfolio.Models.Email;
 using portfolio.Models.Project;
 using portfolio.Models.Skill;
@@ -17,6 +18,49 @@ namespace portfolio.DataAccess.Data
         public DbSet<Project> Projects { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<EmailMessage> EmailMessages { get; set; }
+        public DbSet<ConfigureData> ConfigureDatas { get; set; }
+
+        public int GetUnreadEmailMessagesAmount()
+        {
+            int i = 0;
+
+            foreach (EmailMessage message in EmailMessages)
+            {
+                if (message.IsReaded == false)
+                {
+                    i++;
+                }
+            }
+
+            return i;
+        }
+
+        public List<TView> GetListView<T, TView>(Func<T, TView> transform) where T : class
+        {
+            List<TView> viewList = new List<TView>();
+            List<T> objList = GetDbSet<T>().ToList();
+
+            foreach (T obj in objList)
+            {
+                TView viewObj = transform(obj);
+                viewList.Add(viewObj);
+            }
+
+            return viewList;
+        }
+
+        private DbSet<T> GetDbSet<T>() where T : class
+        {
+            var property = typeof(ApplicationDbContext).GetProperties()
+                .FirstOrDefault(p => p.PropertyType == typeof(DbSet<T>));
+
+            if (property != null)
+            {
+                return (DbSet<T>)property.GetValue(this)!;
+            }
+
+            throw new InvalidOperationException($"DbSet<{typeof(T).Name}> not found in ApplicationContext.");
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -47,6 +91,25 @@ namespace portfolio.DataAccess.Data
                 new EmailMessage { Id = 2, Email = "test2@email.com", Name = "Mark", Subject = "Test Subject 2", Content = description },
                 new EmailMessage { Id = 3, Email = "test3@email.com", Name = "Jeniffer", Subject = "Test Subject 3", Content = description }
                 );
+
+            AdminLogin adminLogin = new AdminLogin
+            {
+                Password = "$2a$11$8WGPCFiXVzavlpu6KaqakO738nLjnUrvioepPN0VwnQ3SD6SZZKUS"
+            };
+
+            EmailSettings emailSettings = new EmailSettings
+            {
+                Email = "",
+                Password = "",
+                SmtpServer = "",
+                SmtpPort = 0,
+                Encryption = false
+            };
+
+            modelBuilder.Entity<ConfigureData>().HasData(
+                new ConfigureData { Id = 1, JSON = adminLogin.GetJson()},
+                new ConfigureData { Id = 2, JSON = emailSettings.GetJson()}
+            );
         }
 
     }

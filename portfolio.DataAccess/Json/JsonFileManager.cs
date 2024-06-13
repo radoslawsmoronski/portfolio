@@ -1,29 +1,32 @@
-﻿using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
-using portfolio.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using Newtonsoft.Json;
 
 namespace portfolio.DataAccess.Json
 {
-    public static class JsonFileManager<T>
+    public class JsonFileManager : IJsonFileManager
     {
-        public static T Get()
+        public string RootDirectoryPath { get; }
+
+        public JsonFileManager(string rootDirectoryPath)
+        {
+            RootDirectoryPath = rootDirectoryPath;
+        }
+
+        public T Get<T>()
         {
             Type typ = typeof(T);
             string fileName = typ.Name;
-            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "json", $"{fileName}.json");
+            string filePath = Path.Combine(RootDirectoryPath, "json", $"{fileName}.json"); ;
 
             if (File.Exists(filePath))
             {
                 string json = File.ReadAllText(filePath);
-                return JsonConvert.DeserializeObject<T>(json);
-            }
+                var obj = JsonConvert.DeserializeObject<T>(json);
 
+                if (obj != null)
+                {
+                    return obj;
+                }
+            }
 
             T newObject = Activator.CreateInstance<T>();
             string newJson = JsonConvert.SerializeObject(newObject);
@@ -31,13 +34,13 @@ namespace portfolio.DataAccess.Json
             return newObject;
         }
 
-        public static void Save(T entity)
+        public void Save<T>(T entity)
         {
             if (entity == null) return;
 
             Type typ = entity.GetType();
             string fileName = typ.Name;
-            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "json", $"{fileName}.json");
+            string filePath = Path.Combine(RootDirectoryPath, "json", $"{fileName}.json"); ;
 
             string newJson = JsonConvert.SerializeObject(entity);
             File.WriteAllText(filePath, newJson);

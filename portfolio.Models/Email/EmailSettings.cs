@@ -1,26 +1,38 @@
-﻿using System.Net.Mail;
-using System.Net;
+﻿using Newtonsoft.Json;
+using portfolio.Models.ConfigureData;
 using System.ComponentModel.DataAnnotations;
+using System.Net;
+using System.Net.Mail;
 
 namespace portfolio.Models.Email
 {
-    public class EmailSettings
+    public class EmailSettings : IConfigureDataClass
     {
         [Required]
-        public string Email { get; set; }
+        public string? Email { get; set; }
         [Required]
         public string? Password { get; set; }
         [Required]
-        public string SmtpServer { get; set; }
+        public string? SmtpServer { get; set; }
         [Required]
         public int SmtpPort { get; set;}
         [Required]
         public bool Encryption  { get; set; }
 
+        public string GetJson()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
+
         public bool CheckConnection()
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(Email))
+                {
+                    throw new ArgumentException("Email value is empty or null.");
+                }
+
                 var client = new SmtpClient(SmtpServer, SmtpPort)
                 {
                     EnableSsl = Encryption,
@@ -34,9 +46,9 @@ namespace portfolio.Models.Email
 
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                return false;
             }
         }
 

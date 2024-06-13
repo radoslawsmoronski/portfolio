@@ -1,57 +1,64 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.EntityFrameworkCore;
+using portfolio.DataAccess.Data;
 using portfolio.DataAccess.Json;
-using portfolio.DataAccess.Repository.IRepository;
 using portfolio.Models;
+using portfolio.Models.AboutMe;
 using portfolio.Models.Email;
+using portfolio.Models.Footer;
+using portfolio.Models.Navbar;
+using portfolio.Models.Project;
+using portfolio.Models.Skill;
 using portfolio.Models.ViewModels;
+using portfolio.Models.WebsiteTab;
+using portfolio.Models.Welcome;
 using portfolio.Utility.Email;
 using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc.Localization;
-using portfolio.Models.AboutMe;
 using System.Globalization;
-using portfolio.Models.WebsiteTab;
-using portfolio.Models.Navbar;
-using portfolio.Models.Footer;
-using portfolio.Models.Welcome;
-using Microsoft.AspNetCore.Localization;
 
 namespace portfolioASP.Areas.View.Controllers
 {
     [Area("View")]
     public class HomeController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly ApplicationDbContext _dbContext;
         private readonly IEmailService _emailService;
         private readonly ViewHomePageViewModel _model;
         private readonly IHtmlLocalizer<HomeController> _localizer;
         private readonly string currentUICulture = CultureInfo.CurrentUICulture.Name;
+        private readonly IJsonFileManager _jsonFileManager;
 
-        public HomeController(IUnitOfWork unitOfWork, IEmailService emailService, IHtmlLocalizer<HomeController> localizer)
+        public HomeController(ApplicationDbContext dbContext,
+            IEmailService emailService,
+            IHtmlLocalizer<HomeController> localizer,
+            IJsonFileManager jsonFileManager)
         {
-            _unitOfWork = unitOfWork;
+            _dbContext = dbContext;
             _emailService = emailService;
+            _localizer = localizer;
+            _jsonFileManager = jsonFileManager;
 
             _model = new ViewHomePageViewModel
             {
-                WelcomeView = new WelcomeView(JsonFileManager<Welcome>.Get(), currentUICulture),
-                AboutMeView = new AboutMeView(JsonFileManager<AboutMe>.Get(), currentUICulture),
-                SkillViews = _unitOfWork.SkillRepository.GetAllView(currentUICulture),
-                ProjectViews = _unitOfWork.ProjectRepository.GetAllView(currentUICulture),
-                Contacts = _unitOfWork.ContactRepository.GetAll().ToList()
+                WelcomeView = new WelcomeView(_jsonFileManager.Get<Welcome>(), currentUICulture),
+                AboutMeView = new AboutMeView(_jsonFileManager.Get<AboutMe>(), currentUICulture),
+                SkillViews = _dbContext.GetListView<Skill, SkillView>(obj => new SkillView(obj, currentUICulture)),
+                ProjectViews = _dbContext.GetListView<Project, ProjectView>(obj => new ProjectView(obj, currentUICulture)),
+                Contacts = _dbContext.Contacts.ToList()
             };
-
-            _localizer = localizer;
         }
 
         public IActionResult Index()
         {
-            WebsiteTabView websiteTabView = new WebsiteTabView(JsonFileManager<WebsiteTab>.Get(), currentUICulture);
+            WebsiteTabView websiteTabView = new WebsiteTabView(_jsonFileManager.Get<WebsiteTab>(), currentUICulture);
             ViewData["WebsiteTabView"] = websiteTabView;
 
-            NavbarView navbarView = new NavbarView(JsonFileManager<Navbar>.Get(), currentUICulture);
+            NavbarView navbarView = new NavbarView(_jsonFileManager.Get<Navbar>(), currentUICulture);
             ViewData["NavbarView"] = navbarView;
 
-            FooterView footerView = new FooterView(JsonFileManager<Footer>.Get(), currentUICulture);
+            FooterView footerView = new FooterView(_jsonFileManager.Get<Footer>(), currentUICulture);
             ViewData["FooterView"] = footerView;
 
             return View(_model);
@@ -69,8 +76,11 @@ namespace portfolioASP.Areas.View.Controllers
             {
 
 
-                AutoEmailMessageContentView autoMessage = new AutoEmailMessageContentView(JsonFileManager<AutoEmailMessageContent>.Get(), currentUICulture);
+                AutoEmailMessageContentView autoMessage = new AutoEmailMessageContentView(_jsonFileManager.Get<AutoEmailMessageContent>(), currentUICulture);
                 await _emailService.SendEmailAsync(contactForm.Email, autoMessage.Subject, autoMessage.Content);
+
+                DateTime localDateTime = DateTime.Now;
+                DateTime utcDateTime = localDateTime.ToUniversalTime();
 
                 var message = new EmailMessage
                 {
@@ -78,14 +88,19 @@ namespace portfolioASP.Areas.View.Controllers
                     Subject = contactForm.Subject,
                     Name = contactForm.Name,
                     Content = contactForm.Content,
-                    SentAt = DateTime.Now
+                    SentAt = utcDateTime
                 };
 
-                _unitOfWork.EmailMessageRepository.Add(message);
-                _unitOfWork.Save();
+                _dbContext.EmailMessages.Add(message);
+                _dbContext.SaveChanges();
                 TempData["success"] = _localizer["MessageWasSent"].Value;
             }
-            catch(Exception ex)
+            catch (DbUpdateException ex)
+            {
+                TempData["error"] = ex.InnerException?.Message;
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
             {
                 TempData["error"] = _localizer["MessageSendError"].Value;
                 return RedirectToAction("Index");
