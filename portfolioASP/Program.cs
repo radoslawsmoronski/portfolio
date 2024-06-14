@@ -39,6 +39,7 @@ namespace portfolioASP
                 options.SupportedUICultures = supportedCultures;
 
                 options.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider());
+
             });
 
             builder.Services.AddDbContext<ApplicationDbContext>

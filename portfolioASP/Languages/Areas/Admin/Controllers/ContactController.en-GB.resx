@@ -126,6 +126,9 @@
   <data name="ContactHasBeenEdited" xml:space="preserve">
     <value>Contact has been edited.</value>
   </data>
+  <data name="EmailSettingsEditError" xml:space="preserve">
+    <value>Failed to connect to the SMTP server</value>
+  </data>
   <data name="EmailSettingsError" xml:space="preserve">
     <value>Email settings data error</value>
   </data>

@@ -43,13 +43,13 @@ namespace portfolio.Models.Email
                 MailMessage message = new MailMessage(from: Email, to: Email, "Connection test", "the connection test was successful");
 
                 client.Send(message);
-
-                return true;
             }
             catch (Exception)
             {
                 return false;
             }
+
+            return true;
         }
 
     }

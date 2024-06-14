@@ -109,7 +109,7 @@ namespace portfolio.DataAccess.Data
             modelBuilder.Entity<ConfigureData>().HasData(
                 new ConfigureData { Id = 1, JSON = adminLogin.GetJson()},
                 new ConfigureData { Id = 2, JSON = emailSettings.GetJson()}
-            );
+                );
         }
 
     }

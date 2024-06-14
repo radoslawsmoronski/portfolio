@@ -126,6 +126,9 @@
   <data name="ContactHasBeenEdited" xml:space="preserve">
     <value>Kontakt został edytowany.</value>
   </data>
+  <data name="EmailSettingsEditError" xml:space="preserve">
+    <value>Nie udało się połączyć z serwerem SMTP</value>
+  </data>
   <data name="EmailSettingsError" xml:space="preserve">
     <value>Bład ustawień email</value>
   </data>

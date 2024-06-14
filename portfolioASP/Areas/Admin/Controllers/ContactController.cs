@@ -142,10 +142,8 @@ namespace portfolioASP.Areas.Admin.Controllers
 
             if (emailSettingsDB != null && configureData != null)
             {
-                try
+                if(emailSettings.CheckConnection())
                 {
-                    emailSettings.CheckConnection();
-
                     emailSettingsDB = emailSettings;
                     configureData.JSON = emailSettingsDB.GetJson();
                     _dbContext.SaveChanges();
@@ -153,15 +151,14 @@ namespace portfolioASP.Areas.Admin.Controllers
                     TempData["success"] = _localizer["EmailSettingsHasBeenEdited"].Value;
                     return RedirectToAction("EmailConfigure");
                 }
-                catch (Exception ex)
+                else
                 {
-                    TempData["error"] = ex.Message;
+                    TempData["error"] = _localizer["EmailSettingsEditError"].Value;
 
                     EmailSettings emailSettingsObj = emailSettingsDB;
                     emailSettingsObj.Password = null;
 
                     return View("EmailConfigure/EmailEdit", emailSettingsObj);
-
                 }
             }
 
